@@ -5,6 +5,7 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2016-2017 XMRig       <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *
  *   This program is free software: you can redistribute it and/or modify
@@ -51,7 +52,7 @@ static void print_versions()
 #   endif
 
 
-    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mVERSIONS:     \x1B[01;36mXMRig/%s\x1B[01;37m libuv/%s%s" : " * VERSIONS:     XMRig/%s libuv/%s%s",
+    Log::i()->text(Options::i()->colors() ? "\x1B[01;32m * \x1B[01;37mVERSIONS:     \x1B[01;36mwebchain-miner/%s\x1B[01;37m libuv/%s%s" : " * VERSIONS:     webchain-miner/%s libuv/%s%s",
                    APP_VERSION, uv_version_string(), buf);
 }
 
@@ -165,6 +166,3 @@ void Summary::print()
 
     print_commands();
 }
-
-
-

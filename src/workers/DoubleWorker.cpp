@@ -7,6 +7,7 @@
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -40,9 +41,9 @@ public:
   {}
 
   Job job;
-  uint32_t nonce1;
-  uint32_t nonce2;
-  uint8_t blob[84 * 2];
+  uint64_t nonce1;
+  uint64_t nonce2;
+  uint8_t blob[BLOB_SIZE * 2];
 };
 
 
@@ -83,16 +84,16 @@ void DoubleWorker::start()
             }
 
             m_count += 2;
-            *Job::nonce(m_state->blob)                       = ++m_state->nonce1;
-            *Job::nonce(m_state->blob + m_state->job.size()) = ++m_state->nonce2;
+            *Job::nonce(m_state->blob, m_state->job.size())                       = ++m_state->nonce1;
+            *Job::nonce(m_state->blob + m_state->job.size(), m_state->job.size()) = ++m_state->nonce2;
 
             CryptoNight::hash(m_state->blob, m_state->job.size(), m_hash, m_ctx, m_state->job.variant());
 
-            if (*reinterpret_cast<uint64_t*>(m_hash + 24) < m_state->job.target()) {
+            if (htonll(*reinterpret_cast<uint64_t*>(m_hash)) < m_state->job.target()) {
                 Workers::submit(JobResult(m_state->job.poolId(), m_state->job.id(), m_state->nonce1, m_hash, m_state->job.diff()));
             }
 
-            if (*reinterpret_cast<uint64_t*>(m_hash + 32 + 24) < m_state->job.target()) {
+            if (htonll(*reinterpret_cast<uint64_t*>(m_hash + 32)) < m_state->job.target()) {
                 Workers::submit(JobResult(m_state->job.poolId(), m_state->job.id(), m_state->nonce2, m_hash + 32, m_state->job.diff()));
             }
 
@@ -134,12 +135,12 @@ void DoubleWorker::consumeJob()
     memcpy(m_state->blob + m_state->job.size(), m_state->job.blob(), m_state->job.size());
 
     if (m_state->job.isNicehash()) {
-        m_state->nonce1 = (*Job::nonce(m_state->blob)                       & 0xff000000U) + (0xffffffU / (m_threads * 2) * m_id);
-        m_state->nonce2 = (*Job::nonce(m_state->blob + m_state->job.size()) & 0xff000000U) + (0xffffffU / (m_threads * 2) * (m_id + m_threads));
+        m_state->nonce1 = (*Job::nonce(m_state->blob, m_state->job.size())                       & 0xff000000U) + (0xffffffU / (m_threads * 2) * m_id); // TODO
+        m_state->nonce2 = (*Job::nonce(m_state->blob + m_state->job.size(), m_state->job.size()) & 0xff000000U) + (0xffffffU / (m_threads * 2) * (m_id + m_threads)); // TODO
     }
     else {
-        m_state->nonce1 = 0xffffffffU / (m_threads * 2) * m_id;
-        m_state->nonce2 = 0xffffffffU / (m_threads * 2) * (m_id + m_threads);
+        m_state->nonce1 = (uint64_t)rand() << 32 | 0xffffffffULL / (m_threads * 2) * m_id;
+        m_state->nonce2 = (uint64_t)rand() << 32 | 0xffffffffULL / (m_threads * 2) * (m_id + m_threads);
     }
 }
 

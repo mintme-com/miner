@@ -7,6 +7,7 @@
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -103,7 +104,7 @@ bool Job::setBlob(const char *blob)
     }
 
     m_size /= 2;
-    if (m_size < 76 || m_size >= sizeof(m_blob)) {
+    if (m_size < 76 || m_size >= BLOB_SIZE) {
         return false;
     }
 
@@ -208,11 +209,11 @@ void Job::toHex(const unsigned char* in, unsigned int len, char* out)
 
 bool Job::operator==(const Job &other) const
 {
-    return m_id == other.m_id && memcmp(m_blob, other.m_blob, sizeof(m_blob)) == 0;
+    return m_id == other.m_id && memcmp(m_blob, other.m_blob, m_size) == 0;
 }
 
 
 bool Job::operator!=(const Job &other) const
 {
-    return m_id != other.m_id || memcmp(m_blob, other.m_blob, sizeof(m_blob)) != 0;
+    return m_id != other.m_id || memcmp(m_blob, other.m_blob, m_size) != 0;
 }

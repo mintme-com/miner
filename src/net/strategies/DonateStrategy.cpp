@@ -6,6 +6,7 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -37,8 +38,7 @@ extern "C"
 }
 
 
-const static char *kDonatePool1   = "miner.fee.xmrig.com";
-const static char *kDonatePool2   = "emergency.fee.xmrig.com";
+const static char *kDonatePool1   = "feepool.webchain.network";
 
 
 static inline int random(int min, int max){
@@ -54,20 +54,12 @@ DonateStrategy::DonateStrategy(int level, const char *user, int algo, IStrategyL
     m_listener(listener)
 {
     uint8_t hash[200];
-    char userId[65] = { 0 };
+    char userId[43] = { '0', 'x', 0 };
 
     keccak(reinterpret_cast<const uint8_t *>(user), static_cast<int>(strlen(user)), hash, sizeof(hash));
-    Job::toHex(hash, 32, userId);
+    Job::toHex(hash, 20, userId+2);
 
-    if (algo == xmrig::ALGO_CRYPTONIGHT) {
-        m_pools.push_back(new Url(kDonatePool1, 6666, userId, nullptr, false, true));
-        m_pools.push_back(new Url(kDonatePool1, 80,   userId, nullptr, false, true));
-        m_pools.push_back(new Url(kDonatePool2, 5555, "48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD", "emergency", false, false));
-    }
-    else {
-        m_pools.push_back(new Url(kDonatePool1, 5555, userId, nullptr, false, true));
-        m_pools.push_back(new Url(kDonatePool1, 7777, userId, nullptr, false, true));
-    }
+    m_pools.push_back(new Url(kDonatePool1, 3333, userId, nullptr, false, false));
 
     m_strategy = new FailoverStrategy(m_pools, 1, 1, this, true);
 

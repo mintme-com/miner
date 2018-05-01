@@ -6,6 +6,7 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -61,7 +62,7 @@ Options *Options::m_self = nullptr;
 static char const usage[] = "\
 Usage: " APP_ID " [OPTIONS]\n\
 Options:\n\
-  -a, --algo=ALGO          cryptonight (default) or cryptonight-lite\n\
+  -a, --algo=ALGO          cryptonight-webchain (default)\n\
   -o, --url=URL            URL of mining server\n\
   -O, --userpass=U:P       username:password pair for mining server\n\
   -u, --user=USERNAME      username for mining server\n\
@@ -87,9 +88,9 @@ Options:\n\
 # endif
 "\
       --max-cpu-usage=N    maximum CPU usage for automatic threads mode (default 75)\n\
-      --safe               safe adjust threads and av settings for current CPU\n\
-      --nicehash           enable nicehash/xmrig-proxy support\n\
-      --print-time=N       print hashrate report every N seconds\n\
+      --safe               safe adjust threads and av settings for current CPU\n"
+//      --nicehash           enable nicehash/xmrig-proxy support\n
+"      --print-time=N       print hashrate report every N seconds\n\
       --api-port=N         port for the miner API\n\
       --api-access-token=T access token for API\n\
       --api-worker-id=ID   custom worker-id for API\n\
@@ -117,7 +118,7 @@ static struct option const options[] = {
     { "keepalive",        0, nullptr ,'k'  },
     { "log-file",         1, nullptr, 'l'  },
     { "max-cpu-usage",    1, nullptr, 1004 },
-    { "nicehash",         0, nullptr, 1006 },
+//    { "nicehash",         0, nullptr, 1006 },
     { "no-color",         0, nullptr, 1002 },
     { "no-huge-pages",    0, nullptr, 1009 },
     { "variant",          1, nullptr, 1010 },
@@ -167,7 +168,7 @@ static struct option const pool_options[] = {
     { "userpass",      1, nullptr, 'O'  },
     { "keepalive",     0, nullptr ,'k'  },
     { "variant",       1, nullptr, 1010 },
-    { "nicehash",      0, nullptr, 1006 },
+//    { "nicehash",      0, nullptr, 1006 },
     { 0, 0, 0, 0 }
 };
 
@@ -181,7 +182,7 @@ static struct option const api_options[] = {
 
 
 static const char *algo_names[] = {
-    "cryptonight",
+    "cryptonight-webchain",
 #   ifndef XMRIG_NO_AEON
     "cryptonight-lite"
 #   endif
@@ -556,8 +557,8 @@ bool Options::parseBoolean(int key, bool enable)
         m_safe = enable;
         break;
 
-    case 1006: /* --nicehash */
-        m_pools.back()->setNicehash(enable);
+//    case 1006: /* --nicehash */
+//        m_pools.back()->setNicehash(enable);
         break;
 
     case 1009: /* --no-huge-pages */

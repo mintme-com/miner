@@ -24,7 +24,7 @@ VS_VERSION_INFO VERSIONINFO
         VALUE "FileDescription",  APP_DESC
         VALUE "FileVersion",      APP_VERSION
         VALUE "LegalCopyright",   APP_COPYRIGHT
-        VALUE "OriginalFilename", "xmrig.exe"
+        VALUE "OriginalFilename", "webchain-miner.exe"
         VALUE "ProductName",      APP_NAME
         VALUE "ProductVersion",   APP_VERSION
       END
@@ -34,4 +34,3 @@ VS_VERSION_INFO VERSIONINFO
       VALUE "Translation", 0x0, 1200
     END
   END
-

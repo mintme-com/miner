@@ -6,6 +6,7 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -24,13 +25,13 @@
 #ifndef __VERSION_H__
 #define __VERSION_H__
 
-#define APP_ID        "xmrig"
-#define APP_NAME      "XMRig"
-#define APP_DESC      "XMRig CPU miner"
+#define APP_ID        "webchain-miner"
+#define APP_NAME      "webchain-miner"
+#define APP_DESC      "webchain-miner CPU miner"
 #define APP_VERSION   "2.5.3"
-#define APP_DOMAIN    "xmrig.com"
-#define APP_SITE      "www.xmrig.com"
-#define APP_COPYRIGHT "Copyright (C) 2016-2018 xmrig.com"
+#define APP_DOMAIN    "webchain.network"
+#define APP_SITE      "webchain.network"
+#define APP_COPYRIGHT "Copyright (C) 2016-2018 xmrig.com; Copyright (C) 2018 Webchain project"
 #define APP_KIND      "cpu"
 
 #define APP_VER_MAJOR  2

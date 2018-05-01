@@ -7,6 +7,7 @@
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -35,7 +36,7 @@
 
 
 #include "crypto/CryptoNight.h"
-#include "crypto/CryptoNight_monero.h"
+#include "crypto/CryptoNight_webchain.h"
 #include "crypto/soft_aes.h"
 
 
@@ -333,7 +334,7 @@ inline void cryptonight_single_hash(const uint8_t *__restrict__ input, size_t si
         if (SOFT_AES) {
             cx = soft_aesenc((uint32_t*)&l0[idx0 & MASK], _mm_set_epi64x(ah0, al0));
         }
-        else {  
+        else {
             cx = _mm_load_si128((__m128i *) &l0[idx0 & MASK]);
             cx = _mm_aesenc_si128(cx, _mm_set_epi64x(ah0, al0));
         }
@@ -350,10 +351,11 @@ inline void cryptonight_single_hash(const uint8_t *__restrict__ input, size_t si
         al0 += hi;
         ah0 += lo;
 
-        VARIANT1_2(ah0, 0);
+        uint64_t tmp_al0 = al0;
+        VARIANT1_2(al0, 0);
         ((uint64_t*)&l0[idx0 & MASK])[0] = al0;
         ((uint64_t*)&l0[idx0 & MASK])[1] = ah0;
-        VARIANT1_2(ah0, 0);
+        al0 = tmp_al0;
 
         ah0 ^= ch;
         al0 ^= cl;
@@ -428,10 +430,11 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         al0 += hi;
         ah0 += lo;
 
-        VARIANT1_2(ah0, 0);
+        uint64_t tmp_al0 = al0;
+        VARIANT1_2(al0, 0);
         ((uint64_t*) &l0[idx0 & MASK])[0] = al0;
         ((uint64_t*) &l0[idx0 & MASK])[1] = ah0;
-        VARIANT1_2(ah0, 0);
+        al0 = tmp_al0;
 
         ah0 ^= ch;
         al0 ^= cl;
@@ -444,10 +447,11 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         al1 += hi;
         ah1 += lo;
 
-        VARIANT1_2(ah1, 1);
+        uint64_t tmp_al1 = al1;
+        VARIANT1_2(al1, 0);
         ((uint64_t*) &l1[idx1 & MASK])[0] = al1;
         ((uint64_t*) &l1[idx1 & MASK])[1] = ah1;
-        VARIANT1_2(ah1, 1);
+        al1 = tmp_al1;
 
         ah1 ^= ch;
         al1 ^= cl;

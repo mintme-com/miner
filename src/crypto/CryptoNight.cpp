@@ -7,6 +7,7 @@
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -21,6 +22,8 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
+#include <uv.h>
 
 
 #include "crypto/CryptoNight.h"
@@ -40,7 +43,6 @@
 
 
 void (*cryptonight_hash_ctx)(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) = nullptr;
-
 
 #define CRYPTONIGHT_HASH(NAME, ITERATIONS, MEM, MASK, SOFT_AES) \
     switch (variant) { \
@@ -122,12 +124,11 @@ void (*cryptonight_variations[4])(const uint8_t *input, size_t size, uint8_t *ou
         };
 #endif
 
-
 bool CryptoNight::hash(const Job &job, JobResult &result, cryptonight_ctx *ctx)
 {
     cryptonight_hash_ctx(job.blob(), job.size(), result.result, ctx, job.variant());
 
-    return *reinterpret_cast<uint64_t*>(result.result + 24) < job.target();
+    return htonll(*reinterpret_cast<uint64_t*>(result.result)) < job.target();
 }
 
 
@@ -154,7 +155,6 @@ void CryptoNight::hash(const uint8_t *input, size_t size, uint8_t *output, crypt
     cryptonight_hash_ctx(input, size, output, ctx, variant);
 }
 
-
 bool CryptoNight::selfTest(int algo) {
     if (cryptonight_hash_ctx == nullptr) {
         return false;
@@ -165,25 +165,12 @@ bool CryptoNight::selfTest(int algo) {
     struct cryptonight_ctx *ctx = static_cast<cryptonight_ctx *>(_mm_malloc(sizeof(cryptonight_ctx), 16));
     ctx->memory = static_cast<uint8_t *>(_mm_malloc(MONERO_MEMORY * 2, 16));
 
-    cryptonight_hash_ctx(test_input, 76, output, ctx, 0);
+    cryptonight_hash_ctx(test_input, 76, output, ctx, 1);
 
     const bool doubleHash = Options::i()->doubleHash();
-
-#   ifndef XMRIG_NO_AEON
-    bool rc = memcmp(output, algo == xmrig::ALGO_CRYPTONIGHT_LITE ? test_output_v0_lite : test_output_v0, (doubleHash ? 64 : 32)) == 0;
-#   else
-    bool rc = memcmp(output, test_output_v0, (doubleHash ? 64 : 32)) == 0;
-#   endif
-
-    if (rc) {
-        cryptonight_hash_ctx(test_input, 76, output, ctx, 1);
-
-#       ifndef XMRIG_NO_AEON
-        rc = memcmp(output, algo == xmrig::ALGO_CRYPTONIGHT_LITE ? test_output_v1_lite : test_output_v1, (doubleHash ? 64 : 32)) == 0;
-#       else
-        rc = memcmp(output, test_output_v1, (doubleHash ? 64 : 32)) == 0;
-#       endif
-    }
+//for(int i=0; i<64; i++)
+//printf("0x%02X, ", output[i]);
+    bool rc = memcmp(output, test_output_v1, (doubleHash ? 64 : 32)) == 0;
 
     _mm_free(ctx->memory);
     _mm_free(ctx);
