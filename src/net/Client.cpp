@@ -6,6 +6,7 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
+ * Copyright 2018      Webchain project
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -174,11 +175,11 @@ int64_t Client::submit(const JobResult &result)
     const char *nonce = result.nonce;
     const char *data  = result.result;
 #   else
-    char nonce[9];
+    char nonce[17];
     char data[65];
 
-    Job::toHex(reinterpret_cast<const unsigned char*>(&result.nonce), 4, nonce);
-    nonce[8] = '\0';
+    Job::toHex(reinterpret_cast<const unsigned char*>(&result.nonce), 8, nonce);
+    nonce[16] = '\0';
 
     Job::toHex(result.result, 32, data);
     data[64] = '\0';
