@@ -1,58 +1,38 @@
-# XMRig
+# webchain-miner
 
-:warning: **If you mine Monero, Aeon, Sumokoin, Turtlecoin, Stellite, GRAFT, Haven Protocol, IPBC, [PLEASE READ](https://github.com/xmrig/xmrig/issues/482)!** :warning:
-
-[![Github All Releases](https://img.shields.io/github/downloads/xmrig/xmrig/total.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub release](https://img.shields.io/github/release/xmrig/xmrig/all.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub Release Date](https://img.shields.io/github/release-date-pre/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub license](https://img.shields.io/github/license/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/blob/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/network)
-
-XMRig is a high performance Monero (XMR) CPU miner, with official support for Windows.
-Originally based on cpuminer-multi with heavy optimizations/rewrites and removing a lot of legacy code, since version 1.0.0 completely rewritten from scratch on C++.
-
-* This is the **CPU-mining** version, there is also a [NVIDIA GPU version](https://github.com/xmrig/xmrig-nvidia) and [AMD GPU version]( https://github.com/xmrig/xmrig-amd).
-* [Roadmap](https://github.com/xmrig/xmrig/issues/106) for next releases.
-
-<img src="http://i.imgur.com/OKZRVDh.png" width="619" >
+webchain-miner is a high performance Webchain (WEB) CPU miner, with official support for Windows.
+Originally based on XMRig with changes that allows mining WEB.
 
 #### Table of contents
 * [Features](#features)
 * [Download](#download)
 * [Usage](#usage)
 * [Algorithm variations](#algorithm-variations)
-* [Build](https://github.com/xmrig/xmrig/wiki/Build)
 * [Common Issues](#common-issues)
 * [Other information](#other-information)
 * [Donations](#donations)
-* [Release checksums](#release-checksums)
 * [Contacts](#contacts)
 
 ## Features
 * High performance.
 * Official Windows support.
 * Small Windows executable, without dependencies.
-* x86/x64 support.
 * Support for backup (failover) mining server.
 * keepalived support.
-* Command line options compatible with cpuminer.
-* CryptoNight-Lite support for AEON.
+* Command line options compatible with XMRig.
 * Smart automatic [CPU configuration](https://github.com/xmrig/xmrig/wiki/Threads).
-* Nicehash support
 * It's open source software.
 
 ## Download
-* Binary releases: https://github.com/xmrig/xmrig/releases
-* Git tree: https://github.com/xmrig/xmrig.git
-  * Clone with `git clone https://github.com/xmrig/xmrig.git` :hammer: [Build instructions](https://github.com/xmrig/xmrig/wiki/Build).
+* Binary releases: https://github.com/webchain-network/webchain-miner/releases
+* Git tree: https://github.com/webchain-network/webchain-miner.git
+  * Clone with `git clone https://github.com/webchain-network/webchain-miner.git` :hammer: [Build instructions](https://github.com/xmrig/xmrig/wiki/Build).
 
 ## Usage
-Use [config.xmrig.com](https://config.xmrig.com/xmrig) to generate, edit or share configurations.
 
 ### Options
 ```
-  -a, --algo=ALGO          cryptonight (default) or cryptonight-lite
+  -a, --algo=ALGO          cryptonight-webchain (default)
   -o, --url=URL            URL of mining server
   -O, --userpass=U:P       username:password pair for mining server
   -u, --user=USERNAME      username for mining server
@@ -75,7 +55,6 @@ Use [config.xmrig.com](https://config.xmrig.com/xmrig) to generate, edit or shar
   -S, --syslog             use system log for output messages
       --max-cpu-usage=N    maximum CPU usage for automatic threads mode (default 75)
       --safe               safe adjust threads and av settings for current CPU
-      --nicehash           enable nicehash/xmrig-proxy support
       --print-time=N       print hashrate report every N seconds
       --api-port=N         port for the miner API
       --api-access-token=T access token for API
@@ -95,8 +74,8 @@ Since version 0.8.0.
 
 ## Common Issues
 ### HUGE PAGES unavailable
-* Run XMRig as Administrator.
-* Since version 0.8.0 XMRig automatically enables SeLockMemoryPrivilege for current user, but reboot or sign out still required. [Manual instruction](https://msdn.microsoft.com/en-gb/library/ms190730.aspx).
+* Run webchain-miner as Administrator.
+* webchain-miner automatically enables SeLockMemoryPrivilege for current user, but reboot or sign out still required. [Manual instruction](https://msdn.microsoft.com/en-gb/library/ms190730.aspx).
 
 ## Other information
 * No HTTP support, only stratum protocol support.
@@ -121,15 +100,5 @@ Please note performance is highly dependent on system load. The numbers above ar
 * XMR: `48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD`
 * BTC: `1P7ujsXeX7GxQwHNnJsRMgAdNkFZmNVqJT`
 
-## Release checksums
-### SHA-256
-```
-5ae25d05b7735dd6e2482e8dba0cf0f5d10f9738855c4ad4eaf449b8ccd2e5be xmrig-2.5.3-xenial-amd64.tar.gz/xmrig-2.5.3/xmrig
-f11f3b381425ca4181c425d5b693407431f964759bb903f66b7cd2345fcdd786 xmrig-2.5.3-gcc-win32.zip/xmrig.exe
-67df8b89714e2921931092861361dbae4716c4ab872c767c92adae24dca01514 xmrig-2.5.3-gcc-win64.zip/xmrig.exe
-52bf6e0ef72c84282f4df411125384444c521ed9143e5d8c7e7e445d7d55e143 xmrig-2.5.3-msvc-win64.zip/xmrig.exe
-```
-
 ## Contacts
-* support@xmrig.com
-* [reddit](https://www.reddit.com/user/XMRig/)
+* support@webchain.network
