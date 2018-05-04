@@ -66,7 +66,6 @@ Originally based on XMRig with changes that allows mining WEB.
 Also you can use configuration via config file, default **config.json**. You can load multiple config files and combine it with command line options.
 
 ## Algorithm variations
-Since version 0.8.0.
 * `--av=1` For CPUs with hardware AES.
 * `--av=2` Lower power mode (double hash) of `1`.
 * `--av=3` Software AES implementation.
@@ -95,10 +94,6 @@ Please note performance is highly dependent on system load. The numbers above ar
 * Use modern CPUs with AES-NI instruction set.
 * Try setup optimal cpu affinity.
 * Enable fast memory (Large/Huge pages).
-
-## Donations
-* XMR: `48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRoJMk1j8nLwEVsaSWJ4fhdUyZijBGUicoD`
-* BTC: `1P7ujsXeX7GxQwHNnJsRMgAdNkFZmNVqJT`
 
 ## Contacts
 * support@webchain.network
