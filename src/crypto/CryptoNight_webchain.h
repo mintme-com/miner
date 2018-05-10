@@ -23,26 +23,10 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __CRYPTONIGHT_MONERO_H__
-#define __CRYPTONIGHT_MONERO_H__
+#ifndef __CRYPTONIGHT_WEBCHAIN_H__
+#define __CRYPTONIGHT_WEBCHAIN_H__
 
 // VARIANT ALTERATIONS
 #define VARIANT1_INIT(part) {}
 
-#define VARIANT1_1(p) \
-    if (VARIANT > 0) { \
-        const uint8_t tmp1 = ((const uint8_t*)(p))[11]; \
-        static const uint32_t table1 = 0x86420; \
-        const uint8_t index1 = (((tmp1 >> 3) & 6) | (tmp1 & 1)) << 1; \
-        ((uint8_t*)(p))[11] = tmp1 ^ ((table1 >> index1) & 0x30); \
-    }
-
-#define VARIANT1_2(p, part) \
-    if (VARIANT > 0) { \
-        const uint8_t tmp2 = ((uint8_t*)(&p))[1]; \
-        static const uint32_t table2 = 0x75310; \
-        const uint8_t index2 = (((tmp2 >> 3) & 6) | (tmp2 & 1)) << 1; \
-        ((uint8_t*)(&p))[1] = tmp2 ^ ((table2 >> index2) & 0x33); \
-    }
-
-#endif /* __CRYPTONIGHT_MONERO_H__ */
+#endif /* __CRYPTONIGHT_WEBCHAIN_H__ */
