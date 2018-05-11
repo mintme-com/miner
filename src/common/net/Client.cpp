@@ -306,6 +306,8 @@ bool Client::parseJob(const rapidjson::Value &params, int *code)
         LOG_WARN("[%s] duplicate job received, reconnect", m_pool.url());
     }
 
+    m_job = Job();
+
     close();
     return false;
 }
