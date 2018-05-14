@@ -61,6 +61,7 @@ public:
         VerboseKey        = 1100,
         VersionKey        = 'V',
         WatchKey          = 1105,
+        WorkerKey         = 'w',
 
         // xmrig common
         CPUPriorityKey    = 1021,

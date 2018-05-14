@@ -38,6 +38,7 @@ class Pool
 public:
     constexpr static const char *kDefaultPassword = "x";
     constexpr static const char *kDefaultUser     = "x";
+    constexpr static const char *kDefaultWorkerId = "0";
     constexpr static uint16_t kDefaultPort        = 3333;
     constexpr static int kKeepAliveTimeout        = 60;
 
@@ -58,6 +59,7 @@ public:
     inline const char *rigId() const                   { return m_rigId.data(); }
     inline const char *url() const                     { return m_url.data(); }
     inline const char *user() const                    { return !m_user.isNull() ? m_user.data() : kDefaultUser; }
+    inline const char *workerId() const                { return !m_workerId.isNull() ? m_workerId.data() : kDefaultWorkerId; }
     inline const xmrig::Algorithm &algorithm() const   { return m_algorithm; }
     inline const xmrig::Algorithms &algorithms() const { return m_algorithms; }
     inline int keepAlive() const                       { return m_keepAlive; }
@@ -67,6 +69,7 @@ public:
     inline void setPassword(const char *password)      { m_password = password; }
     inline void setRigId(const char *rigId)            { m_rigId = rigId; }
     inline void setUser(const char *user)              { m_user = user; }
+    inline void setWorkerId(const char *workerId)      { m_workerId = workerId; }
     inline xmrig::Algorithm &algorithm()               { return m_algorithm; }
 
     inline bool operator!=(const Pool &other) const  { return !isEqual(other); }
@@ -97,6 +100,7 @@ private:
     xmrig::c_str m_rigId;
     xmrig::c_str m_url;
     xmrig::c_str m_user;
+    xmrig::c_str m_workerId;
 };
 
 

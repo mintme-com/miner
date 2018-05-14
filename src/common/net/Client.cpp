@@ -185,6 +185,7 @@ int64_t Client::submit(const JobResult &result)
     doc.AddMember("id",      m_sequence, allocator);
     doc.AddMember("jsonrpc", "2.0", allocator);
     doc.AddMember("method",  "submit", allocator);
+    doc.AddMember("worker",  StringRef(m_pool.workerId()), allocator);
 
     Value params(kObjectType);
     params.AddMember("id",     StringRef(m_rpcId.data()), allocator);
@@ -471,6 +472,7 @@ void Client::login()
     doc.AddMember("id",      1,       allocator);
     doc.AddMember("jsonrpc", "2.0",   allocator);
     doc.AddMember("method",  "login", allocator);
+    doc.AddMember("worker",  StringRef(m_pool.workerId()), allocator);
 
     Value params(kObjectType);
     params.AddMember("login", StringRef(m_pool.user()),     allocator);
