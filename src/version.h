@@ -28,15 +28,16 @@
 #define APP_ID        "webchain-miner"
 #define APP_NAME      "webchain-miner"
 #define APP_DESC      "webchain-miner CPU miner"
-#define APP_VERSION   "2.6.2"
+#define APP_VERSION   "2.6.2.0"
 #define APP_DOMAIN    "webchain.network"
 #define APP_SITE      "webchain.network"
 #define APP_COPYRIGHT "Copyright (C) 2016-2018 xmrig.com; Copyright (C) 2018 Webchain project"
 #define APP_KIND      "cpu"
 
-#define APP_VER_MAJOR  2
-#define APP_VER_MINOR  6
-#define APP_VER_PATCH  2
+#define APP_VER_MAJOR    2
+#define APP_VER_MINOR    6
+#define APP_VER_PATCH    2
+#define APP_VER_REVISION 0
 
 #ifdef _MSC_VER
 #   if (_MSC_VER >= 1910)
