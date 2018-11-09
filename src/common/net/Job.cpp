@@ -6,6 +6,7 @@
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
  * Copyright 2018      Lee Clagett <https://github.com/vtnerd>
+ * Copyright 2018      SChernykh   <https://github.com/SChernykh>
  * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  * Copyright 2018      Webchain project
  *
@@ -59,6 +60,7 @@ static inline char hf_bin2hex(unsigned char c)
 
 
 Job::Job() :
+    m_autoVariant(false),
     m_nicehash(false),
     m_poolId(-2),
     m_threadId(-1),
@@ -70,7 +72,8 @@ Job::Job() :
 }
 
 
-Job::Job(int poolId, bool nicehash, xmrig::Algorithm algorithm, const xmrig::Id &clientId) :
+Job::Job(int poolId, bool nicehash, const xmrig::Algorithm &algorithm, const xmrig::Id &clientId) :
+    m_autoVariant(algorithm.variant() == xmrig::VARIANT_AUTO),
     m_nicehash(nicehash),
     m_poolId(poolId),
     m_threadId(-1),
@@ -111,6 +114,10 @@ bool Job::setBlob(const char *blob)
 
     if (*nonce() != 0 && !m_nicehash) {
         m_nicehash = true;
+    }
+
+    if (m_autoVariant) {
+        m_algorithm.setVariant(variant());
     }
 
 #   ifdef XMRIG_PROXY_PROJECT
@@ -164,25 +171,13 @@ bool Job::setTarget(const char *target)
 }
 
 
-xmrig::Variant Job::variant() const
+void Job::setAlgorithm(const char *algo)
 {
-    if (m_algorithm.algo() == xmrig::CRYPTONIGHT_HEAVY) {
-        return xmrig::VARIANT_0;
-    }
-
-    if (m_algorithm.variant() == xmrig::VARIANT_XTL && m_blob[0] < 4) {
-        return xmrig::VARIANT_1;
-    }
+    m_algorithm.parseAlgorithm(algo);
 
     if (m_algorithm.variant() == xmrig::VARIANT_AUTO) {
-        if (m_algorithm.algo() == xmrig::CRYPTONIGHT) {
-            return xmrig::VARIANT_1;
-        }
-
-        return (m_blob[0] > 6 ? xmrig::VARIANT_1 : xmrig::VARIANT_0);
+        m_algorithm.setVariant(variant());
     }
-
-    return m_algorithm.variant();
 }
 
 
@@ -229,4 +224,26 @@ bool Job::operator==(const Job &other) const
 bool Job::operator!=(const Job &other) const
 {
     return m_id != other.m_id || memcmp(m_blob, other.m_blob, m_size) != 0;
+}
+
+
+xmrig::Variant Job::variant() const
+{
+    using namespace xmrig;
+
+    switch (m_algorithm.algo()) {
+    case CRYPTONIGHT:
+        return (m_blob[0] >= 8) ? VARIANT_2 : VARIANT_1;
+
+    case CRYPTONIGHT_LITE:
+        return VARIANT_1;
+
+    case CRYPTONIGHT_HEAVY:
+        return VARIANT_0;
+
+    default:
+        break;
+    }
+
+    return m_algorithm.variant();
 }

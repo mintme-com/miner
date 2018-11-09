@@ -1,11 +1,21 @@
 {
-    "algo": "cryptonight-webchain",
-    "av": 0,                // algorithm variation, 0 auto select
-    "background": false,    // true to run the miner in the background
-    "colors": true,         // false to disable colored output
-    "cpu-affinity": null,   // set process affinity to CPU core(s), mask "0x3" for cores 0 and 1
-    "cpu-priority": null,   // set process priority (0 idle, 2 normal to 5 highest)
-    "donate-level": 5,      // donate level, mininum 1%
+    "algo": "cryptonight",
+    "api": {
+        "port": 0,
+        "access-token": null,
+        "id": null,
+        "worker-id": null,
+        "ipv6": false,
+        "restricted": true
+    },
+    "asm": true,
+    "autosave": true,
+    "av": 0,
+    "background": false,
+    "colors": true,
+    "cpu-affinity": null,
+    "cpu-priority": null,
+    "donate-level": 5,
     "huge-pages": true,
     "hw-aes": null,
     "log-file": null,       // log all output to a file, example: "c:/some/path/webchain-miner.log"
@@ -19,12 +29,15 @@
     "watch": false,
     "pools": [
         {
-            "url": "pool.webchain.network:3333", // URL of mining server
-            "user": "YOUR_WALLET",               // username for mining server
-            "pass": "x",                         // password for mining server
-            "keepalive": false,                  // send keepalived for prevent timeout (need pool support)
-            "nicehash": false,
+            "url": "donate.v2.xmrig.com:3333",
+            "user": "YOUR_WALLET_ADDRESS",
+            "pass": "x",
             "rig-id": null,
+            "nicehash": false,
+            "keepalive": false,
+            "variant": -1,
+            "tls": false,
+            "tls-fingerprint": null
         }
     ],
     "api": {

@@ -1,3 +1,40 @@
+# v2.8.3
+- [#813](https://github.com/xmrig/xmrig/issues/813) Fixed critical bug with Minergate pool and variant 2.
+
+# v2.8.1
+- [#768](https://github.com/xmrig/xmrig/issues/768) Fixed build with Visual Studio 2015.
+- [#769](https://github.com/xmrig/xmrig/issues/769) Fixed regression, some ANSI escape sequences was in log with disabled colors.
+- [#777](https://github.com/xmrig/xmrig/issues/777) Better report about pool connection issues. 
+- Simplified checks for ASM auto detection, only AES support necessary.
+- Added missing options to `--help` output.
+
+# v2.8.0
+- **[#753](https://github.com/xmrig/xmrig/issues/753) Added new algorithm [CryptoNight variant 2](https://github.com/xmrig/xmrig/issues/753) for Monero fork, thanks [@SChernykh](https://github.com/SChernykh).**
+  - Added global and per thread option `"asm"` and and command line equivalent.
+- **[#758](https://github.com/xmrig/xmrig/issues/758) Added SSL/TLS support for secure connections to pools.**
+  - Added per pool options `"tls"` and `"tls-fingerprint"` and command line equivalents.
+- [#767](https://github.com/xmrig/xmrig/issues/767) Added config autosave feature, same with GPU miners.  
+- [#245](https://github.com/xmrig/xmrig-proxy/issues/245) Fixed API ID collision when run multiple miners on same machine.
+- [#757](https://github.com/xmrig/xmrig/issues/757) Fixed send buffer overflow.
+
+# v2.6.4
+- [#700](https://github.com/xmrig/xmrig/issues/700) `cryptonight-lite/ipbc` replaced to `cryptonight-heavy/tube` for **Bittube (TUBE)**.
+- Added `cryptonight/rto` (cryptonight variant 1 with IPBC/TUBE mod) variant for **Arto (RTO)** coin.
+- Added `cryptonight/xao` (original cryptonight with bigger iteration count) variant for **Alloy (XAO)** coin.
+- Better variant detection for **nicehash.com** and **minergate.com**.
+- [#692](https://github.com/xmrig/xmrig/issues/692) Added support for specify both algorithm and variant via single `algo` option.
+
+# v2.6.3
+- **Added support for new cryptonight-heavy variant xhv** (`cn-heavy/xhv`) for upcoming Haven Protocol fork.
+- **Added support for new cryptonight variant msr** (`cn/msr`) also known as `cryptonight-fast` for upcoming Masari fork.
+- Added new detailed hashrate report.
+- [#446](https://github.com/xmrig/xmrig/issues/446) Likely fixed SIGBUS error on 32 bit ARM CPUs.
+- [#551](https://github.com/xmrig/xmrig/issues/551) Fixed `cn-heavy` algorithm on ARMv8.
+- [#614](https://github.com/xmrig/xmrig/issues/614) Fixed display issue with huge pages percentage when colors disabled.
+- [#615](https://github.com/xmrig/xmrig/issues/615) Fixed build without libcpuid.
+- [#629](https://github.com/xmrig/xmrig/pull/629) Fixed file logging with non-seekable files.
+- [#672](https://github.com/xmrig/xmrig/pull/672) Reverted back `cryptonight-light` and exit if no valid algorithm specified.
+
 # v2.6.2
  - [#607](https://github.com/xmrig/xmrig/issues/607) Fixed donation bug.
  - [#610](https://github.com/xmrig/xmrig/issues/610) Fixed ARM build.
