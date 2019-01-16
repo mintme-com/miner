@@ -5,8 +5,7 @@
  * Copyright 2014-2016 Wolf9466    <https://github.com/OhGodAPet>
  * Copyright 2016      Jay D Dee   <jayddee246@gmail.com>
  * Copyright 2017-2018 XMR-Stak    <https://github.com/fireice-uk>, <https://github.com/psychocrypt>
- * Copyright 2016-2018 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
- * Copyright 2018      Webchain project
+ * Copyright 2016-2019 XMRig       <https://github.com/xmrig>, <support@xmrig.com>
  *
  *   This program is free software: you can redistribute it and/or modify
  *   it under the terms of the GNU General Public License as published by
@@ -213,6 +212,12 @@ const char *Client::tlsVersion() const
 
 int64_t Client::submit(const JobResult &result)
 {
+#   ifndef XMRIG_PROXY_PROJECT
+    if (result.clientId != m_rpcId) {
+        return -1;
+    }
+#   endif
+
     using namespace rapidjson;
 
 #   ifdef XMRIG_PROXY_PROJECT
@@ -356,6 +361,8 @@ bool Client::parseJob(const rapidjson::Value &params, int *code)
         close();
         return false;
     }
+
+    m_job.setClientId(m_rpcId);
 
     if (m_job != job) {
         m_jobs++;
