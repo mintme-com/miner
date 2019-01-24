@@ -18,15 +18,8 @@
     "donate-level": 5,
     "huge-pages": true,
     "hw-aes": null,
-    "log-file": null,       // log all output to a file, example: "c:/some/path/webchain-miner.log"
-    "max-cpu-usage": 75,    // maximum CPU usage for automatic mode, usually limiting factor is CPU cache not this option.
-    "print-time": 60,       // print hashrate report every N seconds
-    "retries": 5,           // number of times to retry before switch to backup server
-    "retry-pause": 5,       // time to pause between retries
-    "safe": false,          // true to safe adjust threads and av settings for current CPU
-    "threads": null,        // number of miner threads
-    "user-agent": null,
-    "watch": false,
+    "log-file": null,
+    "max-cpu-usage": 100,
     "pools": [
         {
             "url": "donate.v2.xmrig.com:3333",
