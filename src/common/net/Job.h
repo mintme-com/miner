@@ -51,6 +51,7 @@ public:
     bool setBlob(const char *blob);
     bool setTarget(const char *target);
     void setAlgorithm(const char *algo);
+    void setHeight(uint64_t height);
 
     inline bool isNicehash() const                    { return m_nicehash; }
     inline bool isValid() const                       { return m_size > 0 && m_diff > 0; }
@@ -66,6 +67,7 @@ public:
     inline uint64_t *nonce()                          { return reinterpret_cast<uint64_t*>(m_blob + m_size - 8); }
     inline uint32_t diff() const                      { return static_cast<uint32_t>(m_diff); }
     inline uint64_t target() const                    { return m_target; }
+    inline uint64_t height() const                    { return m_height; }
     inline void reset()                               { m_size = 0; m_diff = 0; }
     inline void setClientId(const xmrig::Id &id)      { m_clientId = id; }
     inline void setPoolId(int poolId)                 { m_poolId = poolId; }
@@ -101,6 +103,7 @@ private:
     uint64_t m_diff;
     uint64_t m_target;
     uint8_t m_blob[kMaxBlobSize];
+    uint64_t m_height;
     xmrig::Algorithm m_algorithm;
     xmrig::Id m_clientId;
     xmrig::Id m_id;
