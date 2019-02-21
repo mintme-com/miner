@@ -91,6 +91,7 @@ Pool::Pool(const char *host, uint16_t port, const char *user, const char *passwo
 
 bool Pool::isCompatible(const xmrig::Algorithm &algorithm) const
 {
+    return true; // TODO
     if (m_algorithms.empty()) {
         return true;
     }
@@ -250,7 +251,7 @@ void Pool::adjust(xmrig::Algo algorithm)
     m_algorithms.push_back(m_algorithm);
 
 #   ifndef XMRIG_PROXY_PROJECT
-    if (m_algorithm.algo() != xmrig::CRYPTONIGHT_HEAVY) {
+    if (m_algorithm.algo() != xmrig::LYRA2) {
         addVariant(xmrig::VARIANT_1);
         addVariant(xmrig::VARIANT_0);
         addVariant(xmrig::VARIANT_XTL);

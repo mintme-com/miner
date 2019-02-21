@@ -504,15 +504,6 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         ah0 ^= ch;
         idx0 = al0;
 
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
-            int64_t n  = ((int64_t*)&l0[idx0 & MASK])[0];
-            int32_t d  = ((int32_t*)&l0[idx0 & MASK])[2];
-            int64_t q = n / (d | 0x5);
-
-            ((int64_t*)&l0[idx0 & MASK])[0] = n ^ q;
-            idx0 = d ^ q;
-        }
-
         cl = ((uint64_t*) &l1[idx1 & MASK])[0];
         ch = ((uint64_t*) &l1[idx1 & MASK])[1];
         lo = __umul128(idx1, cl, &hi);
@@ -525,15 +516,6 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
         al1 ^= cl;
         ah1 ^= ch;
         idx1 = al1;
-
-        if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {
-            int64_t n  = ((int64_t*)&l1[idx1 & MASK])[0];
-            int32_t d  = ((int32_t*)&l1[idx1 & MASK])[2];
-            int64_t q = n / (d | 0x5);
-
-            ((int64_t*)&l1[idx1 & MASK])[0] = n ^ q;
-            idx1 = d ^ q;
-        }
     }
 
     cn_implode_scratchpad<ALGO, MEM, SOFT_AES>((__m128i*) l0, (__m128i*) h0);
@@ -581,15 +563,7 @@ inline void cryptonight_double_hash(const uint8_t *__restrict__ input, size_t si
     cryptonight_monero_tweak2<3>(reinterpret_cast<uint64_t*>(ptr), a); \
                                                         \
     a = _mm_xor_si128(a, b);                            \
-    idx = EXTRACT64(a);                                 \
-                                                        \
-    if (ALGO == xmrig::CRYPTONIGHT_HEAVY) {             \
-        int64_t n = ((int64_t*)&l[idx & MASK])[0];      \
-        int32_t d = ((int32_t*)&l[idx & MASK])[2];      \
-        int64_t q = n / (d | 0x5);                      \
-        ((int64_t*)&l[idx & MASK])[0] = n ^ q;          \
-        idx = d ^ q;                                    \
-    }
+    idx = EXTRACT64(a); 
 
 
 #define CONST_INIT(ctx, n)

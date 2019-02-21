@@ -71,7 +71,7 @@ void xmrig::Config::getJSON(rapidjson::Document &doc) const
 
     auto &allocator = doc.GetAllocator();
 
-    doc.AddMember("algo", StringRef(algorithm().name()), allocator);
+    //doc.AddMember("algo", StringRef(algorithm().name()), allocator);
 
     Value api(kObjectType);
     api.AddMember("port",         apiPort(), allocator);
@@ -337,12 +337,6 @@ bool xmrig::Config::parseInt(int key, int arg)
 
 xmrig::AlgoVariant xmrig::Config::getAlgoVariant() const
 {
-#   ifndef XMRIG_NO_AEON
-    if (m_algorithm.algo() == xmrig::CRYPTONIGHT_LITE) {
-        return getAlgoVariantLite();
-    }
-#   endif
-
     if (m_algoVariant <= AV_AUTO || m_algoVariant >= AV_MAX) {
         return Cpu::hasAES() ? AV_SINGLE : AV_SINGLE_SOFT;
     }

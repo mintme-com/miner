@@ -79,6 +79,8 @@ set(HEADERS_CRYPTO
     src/crypto/hash.h
     src/crypto/skein_port.h
     src/crypto/soft_aes.h
+    src/crypto/Lyra2.h
+    src/crypto/Sponge.h
    )
 
 if (XMRIG_ARM)
@@ -126,6 +128,8 @@ set(SOURCES_CRYPTO
     src/crypto/c_blake256.c
     src/crypto/c_jh.c
     src/crypto/c_skein.c
+    src/crypto/Lyra2.c
+    src/crypto/Sponge.c
    )
 
 if (WIN32)

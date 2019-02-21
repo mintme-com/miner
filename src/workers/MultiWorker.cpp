@@ -27,6 +27,7 @@
 
 
 #include "crypto/CryptoNight_test.h"
+#include "crypto/Lyra2.h"
 #include "workers/CpuThread.h"
 #include "workers/MultiWorker.h"
 #include "workers/Workers.h"
@@ -36,13 +37,15 @@ template<size_t N>
 MultiWorker<N>::MultiWorker(Handle *handle)
     : Worker(handle)
 {
-    m_memory = Mem::create(m_ctx, m_thread->algorithm(), N);
+    lyra2_ctx = (cryptonight_ctx*)LYRA2_create();
+    m_memory = Mem::create(m_ctx, xmrig::CRYPTONIGHT, N);
 }
 
 
 template<size_t N>
 MultiWorker<N>::~MultiWorker()
 {
+    LYRA2_destroy(lyra2_ctx);
     Mem::release(m_ctx, N, m_memory);
 }
 
@@ -50,6 +53,10 @@ MultiWorker<N>::~MultiWorker()
 template<size_t N>
 bool MultiWorker<N>::selfTest()
 {
+    if (m_thread->algorithm() == xmrig::LYRA2) {
+        // TODO
+        return true;
+    }
     if (m_thread->fn(xmrig::VARIANT_0) == nullptr) {
         return false;
     }
@@ -86,7 +93,11 @@ void MultiWorker<N>::start()
                 storeStats();
             }
 
-            m_thread->fn(m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, m_ctx);
+            if (m_state.job.algorithm().algo() == xmrig::LYRA2) {
+                m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, (cryptonight_ctx**)/*TODO*/lyra2_ctx);
+            } else {
+                m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, m_ctx);
+            }
 
             for (size_t i = 0; i < N; ++i) {
                 if (htonll(*reinterpret_cast<uint64_t*>(m_hash + (i * 32))) < m_state.job.target()) {
