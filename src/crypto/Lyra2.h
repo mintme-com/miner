@@ -44,7 +44,7 @@ struct LYRA2_ctx {
 
 #define NROWS 16384
 #define NCOLS 4
-#define TCOST 2
+#define TCOST 4
 
 #ifdef __cplusplus
 extern "C" {
