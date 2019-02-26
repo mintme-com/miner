@@ -24,6 +24,8 @@
 
 
 #include <thread>
+#include <random>
+#include <chrono>
 
 
 #include "crypto/CryptoNight_test.h"
@@ -32,6 +34,7 @@
 #include "workers/MultiWorker.h"
 #include "workers/Workers.h"
 
+std::mt19937 rnd_gen(std::chrono::high_resolution_clock::now().time_since_epoch().count());
 
 template<size_t N>
 MultiWorker<N>::MultiWorker(Handle *handle)
@@ -160,7 +163,7 @@ void MultiWorker<N>::consumeJob()
             *nonce(i) = (*nonce(i) & 0xff000000U) + (0xffffffU / m_totalWays * (m_offset + i)); // TODO
         }
         else {
-           *nonce(i) = (uint64_t)rand() << 32 | 0xffffffffULL / m_totalWays * (m_offset + i);
+           *nonce(i) = (std::uniform_int_distribution<uint64_t>{0, 0xFFFFFFFF}(rnd_gen) << 32) | (0xffffffffULL / m_totalWays * (m_offset + i));
         }
     }
 }
