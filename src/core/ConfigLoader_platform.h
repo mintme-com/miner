@@ -89,7 +89,7 @@ static char const short_options[] = "a:c:khBp:Px:r:R:s:t:T:o:u:O:v:Vl:S";
 
 
 static struct option const options[] = {
-    { "algo",              1, nullptr, xmrig::IConfig::AlgorithmKey      },
+    //{ "algo",              1, nullptr, xmrig::IConfig::AlgorithmKey      },
     { "api-access-token",  1, nullptr, xmrig::IConfig::ApiAccessTokenKey },
     { "api-port",          1, nullptr, xmrig::IConfig::ApiPort           },
     { "api-worker-id",     1, nullptr, xmrig::IConfig::ApiWorkerIdKey    },
@@ -129,7 +129,7 @@ static struct option const options[] = {
 
 
 static struct option const config_options[] = {
-    { "algo",          1, nullptr, xmrig::IConfig::AlgorithmKey   },
+    //{ "algo",          1, nullptr, xmrig::IConfig::AlgorithmKey   },
     { "av",            1, nullptr, xmrig::IConfig::AVKey          },
     { "background",    0, nullptr, xmrig::IConfig::BackgroundKey  },
     { "colors",        0, nullptr, xmrig::IConfig::ColorKey       },

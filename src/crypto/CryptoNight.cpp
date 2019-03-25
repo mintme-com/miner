@@ -81,48 +81,12 @@ static void cryptonight_av4_softaes_double(const uint8_t *input, size_t size, ui
 }
 
 
-#ifndef XMRIG_NO_AEON
-static void cryptonight_lite_av1_aesni(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) {
-#   if !defined(XMRIG_ARMv7)
-    CRYPTONIGHT_HASH(single, AEON_ITER, AEON_MEMORY, AEON_MASK, false)
-#   endif
-}
-
-
-static void cryptonight_lite_av2_aesni_double(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) {
-#   if !defined(XMRIG_ARMv7)
-    CRYPTONIGHT_HASH(double, AEON_ITER, AEON_MEMORY, AEON_MASK, false)
-#   endif
-}
-
-
-static void cryptonight_lite_av3_softaes(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) {
-    CRYPTONIGHT_HASH(single, AEON_ITER, AEON_MEMORY, AEON_MASK, true)
-}
-
-
-static void cryptonight_lite_av4_softaes_double(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) {
-    CRYPTONIGHT_HASH(double, AEON_ITER, AEON_MEMORY, AEON_MASK, true)
-}
-
-void (*cryptonight_variations[8])(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) = {
-            cryptonight_av1_aesni,
-            cryptonight_av2_aesni_double,
-            cryptonight_av3_softaes,
-            cryptonight_av4_softaes_double,
-            cryptonight_lite_av1_aesni,
-            cryptonight_lite_av2_aesni_double,
-            cryptonight_lite_av3_softaes,
-            cryptonight_lite_av4_softaes_double
-        };
-#else
 void (*cryptonight_variations[4])(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx *ctx, int variant) = {
             cryptonight_av1_aesni,
             cryptonight_av2_aesni_double,
             cryptonight_av3_softaes,
             cryptonight_av4_softaes_double
         };
-#endif
 
 bool CryptoNight::hash(const Job &job, JobResult &result, cryptonight_ctx *ctx)
 {
@@ -138,11 +102,7 @@ bool CryptoNight::init(int algo, int variant)
         return false;
     }
 
-#   ifndef XMRIG_NO_AEON
-    const int index = algo == xmrig::ALGO_CRYPTONIGHT_LITE ? (variant + 3) : (variant - 1);
-#   else
     const int index = variant - 1;
-#   endif
 
     cryptonight_hash_ctx = cryptonight_variations[index];
 

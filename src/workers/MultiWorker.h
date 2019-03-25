@@ -65,6 +65,7 @@ private:
 
 
     cryptonight_ctx *m_ctx[N];
+    void *lyra2_ctx;
     State m_pausedState;
     State m_state;
     uint8_t m_hash[N * 32];

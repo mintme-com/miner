@@ -56,16 +56,8 @@ static AlgoData const algorithms[] = {
     { "cryptonight-webchain",           "cn-web",           xmrig::CRYPTONIGHT,       xmrig::VARIANT_AUTO },
     { "cryptonight-webchain/1",         "cn-web/1",         xmrig::CRYPTONIGHT,       xmrig::VARIANT_1    },
 
-#   ifndef XMRIG_NO_AEON
-    { "cryptonight-lite",      "cn-lite",      xmrig::CRYPTONIGHT_LITE,  xmrig::VARIANT_AUTO },
-    { "cryptonight-lite/0",    "cn-lite/0",    xmrig::CRYPTONIGHT_LITE,  xmrig::VARIANT_0    },
-    { "cryptonight-lite/1",    "cn-lite/1",    xmrig::CRYPTONIGHT_LITE,  xmrig::VARIANT_1    },
-    { "cryptonight-lite/ipbc", "cn-lite/ipbc", xmrig::CRYPTONIGHT_LITE,  xmrig::VARIANT_IPBC },
-#   endif
-
-#   ifndef XMRIG_NO_SUMO
-    { "cryptonight-heavy",     "cn-heavy",     xmrig::CRYPTONIGHT_HEAVY, xmrig::VARIANT_0    },
-#   endif
+    { "lyra2-webchain",                 "lyra2-web",        xmrig::LYRA2,             xmrig::VARIANT_AUTO },
+    { "lyra2-webchain/1",               "lyra2-web/1",      xmrig::LYRA2,             xmrig::VARIANT_0    },
 };
 
 
@@ -74,10 +66,6 @@ static AlgoData const xmrStakAlgorithms[] = {
     { "cryptonight-monerov7",    nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_1    },
     { "cryptonight_v7",          nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_1    },
     { "cryptonight_v7_stellite", nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_XTL  },
-    { "cryptonight_lite",        nullptr, xmrig::CRYPTONIGHT_LITE, xmrig::VARIANT_0    },
-    { "cryptonight-aeonv7",      nullptr, xmrig::CRYPTONIGHT_LITE, xmrig::VARIANT_1    },
-    { "cryptonight_lite_v7",     nullptr, xmrig::CRYPTONIGHT_LITE, xmrig::VARIANT_1    },
-    { "cryptonight_lite_v7_xor", nullptr, xmrig::CRYPTONIGHT_LITE, xmrig::VARIANT_IPBC },
 };
 #endif
 
@@ -142,7 +130,7 @@ void xmrig::Algorithm::parseAlgorithm(const char *algo)
 
 void xmrig::Algorithm::parseVariant(const char *variant)
 {
-    if (m_algo == CRYPTONIGHT_HEAVY) {
+    if (m_algo == LYRA2) {
         m_variant = VARIANT_0;
         return;
     }
@@ -173,7 +161,7 @@ void xmrig::Algorithm::setAlgo(Algo algo)
 {
     m_algo = algo;
 
-    if (m_algo == CRYPTONIGHT_HEAVY) {
+    if (m_algo == LYRA2) {
         m_variant = VARIANT_0;
     }
 }

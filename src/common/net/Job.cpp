@@ -166,7 +166,7 @@ bool Job::setTarget(const char *target)
 
 xmrig::Variant Job::variant() const
 {
-    if (m_algorithm.algo() == xmrig::CRYPTONIGHT_HEAVY) {
+    if (m_algorithm.algo() == xmrig::LYRA2) {
         return xmrig::VARIANT_0;
     }
 
