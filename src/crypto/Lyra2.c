@@ -169,6 +169,9 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 			rowa = state[0] & (unsigned int)(NROWS-1);  //(USE THIS IF NROWS IS A POWER OF 2)
 			//rowa = state[0] % NROWS; //(USE THIS FOR THE "GENERIC" CASE)
 			//------------------------------------------------------------------------------------------
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+0);
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+4);
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+8);
 
 			//Performs a reduced-round duplexing operation over M[row*] XOR M[prev], updating both M[row*] and M[row]
 			reducedDuplexRow(state, ctx->memMatrix[prev], ctx->memMatrix[rowa], ctx->memMatrix[row]);
@@ -181,6 +184,10 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 			row = (row + step) & (unsigned int)(NROWS-1); //(USE THIS IF NROWS IS A POWER OF 2)
 			//row = (row + step) % NROWS; //(USE THIS FOR THE "GENERIC" CASE)
 			//------------------------------------------------------------------------------------------
+			int64_t nrow = (row + step) & (unsigned int)(NROWS-1); //(USE THIS IF NROWS IS A POWER OF 2)
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[nrow])+0);
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[nrow])+4);
+			__builtin_prefetch((uint64_t*)(ctx->memMatrix[nrow])+8);
 
 		} while (row != 0);
 	}
