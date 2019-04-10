@@ -24,48 +24,8 @@
 
 
 #include "common/utils/mm_malloc.h"
-#include "crypto/CryptoNight.h"
-#include "crypto/CryptoNight_constants.h"
 #include "Mem.h"
 
 
 bool Mem::m_enabled = true;
 int Mem::m_flags    = 0;
-
-
-
-MemInfo Mem::create(cryptonight_ctx **ctx, xmrig::Algo algorithm, size_t count)
-{
-    using namespace xmrig;
-
-    MemInfo info;
-    info.size = cn_select_memory(algorithm) * count;
-
-#   ifndef XMRIG_NO_AEON
-    info.size += info.size % cn_select_memory<CRYPTONIGHT>();
-#   endif
-
-    info.pages = info.size / cn_select_memory<CRYPTONIGHT>();
-
-    allocate(info, m_enabled);
-
-    for (size_t i = 0; i < count; ++i) {
-        cryptonight_ctx *c = static_cast<cryptonight_ctx *>(_mm_malloc(sizeof(cryptonight_ctx), 4096));
-        c->memory          = info.memory + (i * cn_select_memory(algorithm));
-
-        ctx[i] = c;
-    }
-
-    return info;
-}
-
-
-void Mem::release(cryptonight_ctx **ctx, size_t count, MemInfo &info)
-{
-    release(info);
-
-    for (size_t i = 0; i < count; ++i) {
-        _mm_free(ctx[i]);
-    }
-}
-

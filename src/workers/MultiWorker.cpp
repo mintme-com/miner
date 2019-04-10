@@ -28,8 +28,8 @@
 #include <chrono>
 
 
-#include "crypto/CryptoNight_test.h"
 #include "crypto/Lyra2.h"
+#include "crypto/Lyra2_test.h"
 #include "workers/CpuThread.h"
 #include "workers/MultiWorker.h"
 #include "workers/Workers.h"
@@ -40,8 +40,7 @@ template<size_t N>
 MultiWorker<N>::MultiWorker(Handle *handle)
     : Worker(handle)
 {
-    lyra2_ctx = (cryptonight_ctx*)LYRA2_create();
-    m_memory = Mem::create(m_ctx, xmrig::CRYPTONIGHT, N);
+    lyra2_ctx = LYRA2_create();
 }
 
 
@@ -49,22 +48,13 @@ template<size_t N>
 MultiWorker<N>::~MultiWorker()
 {
     LYRA2_destroy(lyra2_ctx);
-    Mem::release(m_ctx, N, m_memory);
 }
 
 
 template<size_t N>
 bool MultiWorker<N>::selfTest()
 {
-    if (m_thread->algorithm() == xmrig::LYRA2) {
-        // TODO
-        return true;
-    }
-    if (m_thread->fn(xmrig::VARIANT_0) == nullptr) {
-        return false;
-    }
-
-    m_thread->fn(xmrig::VARIANT_1)(test_input, 76, m_hash, m_ctx);
+    m_thread->fn(xmrig::VARIANT_0)(test_input, 76, m_hash, lyra2_ctx);
 
     if (memcmp(m_hash, test_output_v1, sizeof m_hash) == 0) {
         return true;
@@ -96,11 +86,7 @@ void MultiWorker<N>::start()
                 storeStats();
             }
 
-            if (m_state.job.algorithm().algo() == xmrig::LYRA2) {
-                m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, (cryptonight_ctx**)/*TODO*/lyra2_ctx);
-            } else {
-                m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, m_ctx);
-            }
+            m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, lyra2_ctx);
 
             for (size_t i = 0; i < N; ++i) {
                 if (htonll(*reinterpret_cast<uint64_t*>(m_hash + (i * 32))) < m_state.job.target()) {
@@ -179,7 +165,3 @@ void MultiWorker<N>::save(const Job &job)
 
 
 template class MultiWorker<1>;
-template class MultiWorker<2>;
-template class MultiWorker<3>;
-template class MultiWorker<4>;
-template class MultiWorker<5>;

@@ -1,6 +1,4 @@
 {
-    "algo": "cryptonight-webchain",
-    "av": 0,                // algorithm variation, 0 auto select
     "background": false,    // true to run the miner in the background
     "colors": true,         // false to disable colored output
     "cpu-affinity": null,   // set process affinity to CPU core(s), mask "0x3" for cores 0 and 1

@@ -26,7 +26,6 @@
 #define __MULTIWORKER_H__
 
 
-#include "crypto/CryptoNight.h"
 #include "common/net/Job.h"
 #include "Mem.h"
 #include "net/JobResult.h"
@@ -64,7 +63,6 @@ private:
     };
 
 
-    cryptonight_ctx *m_ctx[N];
     void *lyra2_ctx;
     State m_pausedState;
     State m_state;

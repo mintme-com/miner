@@ -29,7 +29,7 @@
 #include "interfaces/IThread.h"
 
 
-struct cryptonight_ctx;
+struct LYRA2_ctx;
 
 
 namespace xmrig {
@@ -59,7 +59,7 @@ public:
     CpuThread(size_t index, Algo algorithm, AlgoVariant av, Multiway multiway, int64_t affinity, int priority, bool softAES, bool prefetch);
     ~CpuThread();
 
-    typedef void (*cn_hash_fun)(const uint8_t *input, size_t size, uint8_t *output, cryptonight_ctx **ctx);
+    typedef void (*cn_hash_fun)(const uint8_t *input, size_t size, uint8_t *output, void *ctx);
 
     static bool isSoftAES(AlgoVariant av);
     static cn_hash_fun fn(Algo algorithm, AlgoVariant av, Variant variant);

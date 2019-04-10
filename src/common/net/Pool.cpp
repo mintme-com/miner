@@ -91,13 +91,12 @@ Pool::Pool(const char *host, uint16_t port, const char *user, const char *passwo
 
 bool Pool::isCompatible(const xmrig::Algorithm &algorithm) const
 {
-    return true; // TODO
     if (m_algorithms.empty()) {
         return true;
     }
 
     for (const auto &a : m_algorithms) {
-        if (algorithm == a) {
+        if (algorithm.algo() == a.algo()) {
             return true;
         }
     }
@@ -228,8 +227,8 @@ void Pool::adjust(xmrig::Algo algorithm)
         m_algorithm.setAlgo(algorithm);
 
         if (m_algorithm.variant() == xmrig::VARIANT_AUTO) {
-            if (algorithm == xmrig::CRYPTONIGHT)  {
-                m_algorithm.setVariant(xmrig::VARIANT_1);
+            if (algorithm == xmrig::LYRA2)  {
+                m_algorithm.setVariant(xmrig::VARIANT_0);
             }
         }
     }
@@ -254,9 +253,6 @@ void Pool::adjust(xmrig::Algo algorithm)
     if (m_algorithm.algo() != xmrig::LYRA2) {
         addVariant(xmrig::VARIANT_1);
         addVariant(xmrig::VARIANT_0);
-        addVariant(xmrig::VARIANT_XTL);
-        addVariant(xmrig::VARIANT_IPBC);
-        addVariant(xmrig::VARIANT_AUTO);
     }
 #   endif
 }

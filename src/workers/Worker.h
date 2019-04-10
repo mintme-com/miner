@@ -33,7 +33,6 @@
 #include "Mem.h"
 
 
-struct cryptonight_ctx;
 class Handle;
 
 

@@ -83,7 +83,7 @@ bool xmrig::CommonConfig::finalize()
     }
 
     if (!m_algorithm.isValid()) {
-        m_algorithm.setAlgo(CRYPTONIGHT); // TODO: change to LYRA2 in next release
+        m_algorithm.setAlgo(LYRA2);
     }
 
     for (Pool &pool : m_pools) {

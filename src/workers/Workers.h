@@ -87,7 +87,7 @@ private:
             started(0),
             threads(0),
             ways(0),
-            algo(xmrig::CRYPTONIGHT)
+            algo(xmrig::LYRA2)
         {}
 
         bool colors;

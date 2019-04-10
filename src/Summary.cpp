@@ -74,17 +74,16 @@ static void print_memory(xmrig::Config *config) {
 static void print_cpu(xmrig::Config *config)
 {
     if (config->isColors()) {
-        Log::i()->text("\x1B[01;32m * \x1B[01;37mCPU:          %s (%d) %sx64 %sAES-NI",
+        Log::i()->text("\x1B[01;32m * \x1B[01;37mCPU:          %s (%d) %sx64",
                        Cpu::brand(),
                        Cpu::sockets(),
-                       Cpu::isX64() ? "\x1B[01;32m" : "\x1B[01;31m-",
-                       Cpu::hasAES() ? "\x1B[01;32m" : "\x1B[01;31m-");
+                       Cpu::isX64() ? "\x1B[01;32m" : "\x1B[01;31m-");
 #       ifndef XMRIG_NO_LIBCPUID
         Log::i()->text("\x1B[01;32m * \x1B[01;37mCPU L2/L3:    %.1f MB/%.1f MB", Cpu::l2() / 1024.0, Cpu::l3() / 1024.0);
 #       endif
     }
     else {
-        Log::i()->text(" * CPU:          %s (%d) %sx64 %sAES-NI", Cpu::brand(), Cpu::sockets(), Cpu::isX64() ? "" : "-", Cpu::hasAES() ? "" : "-");
+        Log::i()->text(" * CPU:          %s (%d) %sx64", Cpu::brand(), Cpu::sockets(), Cpu::isX64() ? "" : "-");
 #       ifndef XMRIG_NO_LIBCPUID
         Log::i()->text(" * CPU L2/L3:    %.1f MB/%.1f MB", Cpu::l2() / 1024.0, Cpu::l3() / 1024.0);
 #       endif
@@ -103,10 +102,9 @@ static void print_threads(xmrig::Config *config)
             buf[0] = '\0';
         }
 
-        Log::i()->text(config->isColors() ? "\x1B[01;32m * \x1B[01;37mTHREADS:      \x1B[01;36m%d\x1B[01;37m, %s, av=%d, %sdonate=%d%%%s" : " * THREADS:      %d, %s, av=%d, %sdonate=%d%%%s",
+        Log::i()->text(config->isColors() ? "\x1B[01;32m * \x1B[01;37mTHREADS:      \x1B[01;36m%d\x1B[01;37m, %s, %sdonate=%d%%%s" : " * THREADS:      %d, %s, %sdonate=%d%%%s",
                        config->threadsCount(),
                        config->algorithm().name(),
-                       config->algoVariant(),
                        config->isColors() && config->donateLevel() == 0 ? "\x1B[01;31m" : "",
                        config->donateLevel(),
                        buf);

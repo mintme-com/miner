@@ -24,6 +24,7 @@
 #ifndef __XMRIG_H__
 #define __XMRIG_H__
 
+#define htonll(x) ((1==htonl(1)) ? (x) : ((uint64_t)htonl((x) & 0xFFFFFFFF) << 32) | htonl((x) >> 32))
 
 namespace xmrig
 {
@@ -31,7 +32,6 @@ namespace xmrig
 
 enum Algo {
     INVALID_ALGO = -1,
-    CRYPTONIGHT,       /* CryptoNight (Monero) */
     LYRA2              /* LYRA2 (Webchain) */
 };
 
@@ -60,8 +60,6 @@ enum Variant {
     VARIANT_AUTO = -1, // Autodetect
     VARIANT_0    = 0,  // Original CryptoNight or CryptoNight-Heavy
     VARIANT_1    = 1,  // CryptoNight variant 1 also known as Monero7 and CryptoNightV7
-    VARIANT_IPBC = 2,  // CryptoNight Lite variant 1 with XOR (IPBC only)
-    VARIANT_XTL  = 3   // CryptoNight variant 1 (Stellite only)
 };
 
 

@@ -30,7 +30,6 @@
 #include "core/Config.h"
 #include "core/ConfigCreator.h"
 #include "Cpu.h"
-#include "crypto/CryptoNight_constants.h"
 #include "rapidjson/document.h"
 #include "rapidjson/filewritestream.h"
 #include "rapidjson/prettywriter.h"
@@ -71,8 +70,6 @@ void xmrig::Config::getJSON(rapidjson::Document &doc) const
 
     auto &allocator = doc.GetAllocator();
 
-    //doc.AddMember("algo", StringRef(algorithm().name()), allocator);
-
     Value api(kObjectType);
     api.AddMember("port",         apiPort(), allocator);
     api.AddMember("access-token", apiToken() ? Value(StringRef(apiToken())).Move() : Value(kNullType).Move(), allocator);
@@ -81,7 +78,6 @@ void xmrig::Config::getJSON(rapidjson::Document &doc) const
     api.AddMember("restricted",   isApiRestricted(), allocator);
     doc.AddMember("api",          api, allocator);
 
-    doc.AddMember("av",           algoVariant(), allocator);
     doc.AddMember("background",   isBackground(), allocator);
     doc.AddMember("colors",       isColors(), allocator);
 
@@ -165,7 +161,7 @@ bool xmrig::Config::finalize()
     const AlgoVariant av = getAlgoVariant();
     m_threads.mode = m_threads.count ? Simple : Automatic;
 
-    const size_t size = CpuThread::multiway(av) * cn_select_memory(m_algorithm.algo()) / 1024;
+    const size_t size = 1;
 
     if (!m_threads.count) {
         m_threads.count = Cpu::optimalThreadsCount(size, m_maxCpuUsage);

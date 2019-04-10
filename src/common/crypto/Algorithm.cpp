@@ -53,28 +53,14 @@ struct AlgoData
 
 
 static AlgoData const algorithms[] = {
-    { "cryptonight-webchain",           "cn-web",           xmrig::CRYPTONIGHT,       xmrig::VARIANT_AUTO },
-    { "cryptonight-webchain/1",         "cn-web/1",         xmrig::CRYPTONIGHT,       xmrig::VARIANT_1    },
-
     { "lyra2-webchain",                 "lyra2-web",        xmrig::LYRA2,             xmrig::VARIANT_AUTO },
     { "lyra2-webchain/1",               "lyra2-web/1",      xmrig::LYRA2,             xmrig::VARIANT_0    },
 };
 
 
-#ifdef XMRIG_PROXY_PROJECT
-static AlgoData const xmrStakAlgorithms[] = {
-    { "cryptonight-monerov7",    nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_1    },
-    { "cryptonight_v7",          nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_1    },
-    { "cryptonight_v7_stellite", nullptr, xmrig::CRYPTONIGHT,      xmrig::VARIANT_XTL  },
-};
-#endif
-
-
 static const char *variants[] = {
     "0",
     "1",
-    "ipbc",
-    "xtl"
 };
 
 
@@ -148,7 +134,7 @@ void xmrig::Algorithm::parseVariant(const char *variant)
 
 void xmrig::Algorithm::parseVariant(int variant)
 {
-    if (variant >= VARIANT_AUTO && variant <= VARIANT_XTL) {
+    if (variant >= VARIANT_AUTO && variant <= VARIANT_1) {
        m_variant = static_cast<Variant>(variant);
     }
     else {

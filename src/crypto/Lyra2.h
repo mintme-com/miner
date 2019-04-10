@@ -45,6 +45,7 @@ struct LYRA2_ctx {
 #define NROWS 16384
 #define NCOLS 4
 #define TCOST 4
+#define LYRA2_MEMSIZE (BLOCK_LEN_INT64 * NCOLS * 8 * NROWS)
 
 #ifdef __cplusplus
 extern "C" {
@@ -54,9 +55,7 @@ extern "C" {
     void LYRA2_destroy(void *c);
 
 
-    struct cryptonight_ctx;
-
-    inline void lyra2_hash(const uint8_t *input, size_t size, uint8_t *output, struct cryptonight_ctx **ctx)
+    inline void lyra2_hash(const uint8_t *input, size_t size, uint8_t *output, void *ctx)
     {
     	LYRA2(ctx, output, 32, input, size);
     }

@@ -29,7 +29,7 @@
 #include "common/log/Log.h"
 #include "core/Config.h"
 #include "core/Controller.h"
-#include "crypto/CryptoNight_constants.h"
+#include "crypto/Lyra2.h"
 #include "interfaces/IJobResultListener.h"
 #include "interfaces/IThread.h"
 #include "Mem.h"
@@ -194,7 +194,7 @@ void Workers::threadsSummary(rapidjson::Document &doc)
 {
     uv_mutex_lock(&m_mutex);
     const uint64_t pages[2] = { m_status.hugePages, m_status.pages };
-    const uint64_t memory   = m_status.ways * xmrig::cn_select_memory(m_status.algo);
+    const uint64_t memory   = m_status.ways * LYRA2_MEMSIZE;
     uv_mutex_unlock(&m_mutex);
 
     auto &allocator = doc.GetAllocator();
@@ -213,32 +213,7 @@ void Workers::onReady(void *arg)
 {
     auto handle = static_cast<Handle*>(arg);
 
-    IWorker *worker = nullptr;
-
-    switch (handle->config()->multiway()) {
-    case 1:
-        worker = new MultiWorker<1>(handle);
-        break;
-
-    case 2:
-        worker = new MultiWorker<2>(handle);
-        break;
-
-    case 3:
-        worker = new MultiWorker<3>(handle);
-        break;
-
-    case 4:
-        worker = new MultiWorker<4>(handle);
-        break;
-
-    case 5:
-        worker = new MultiWorker<5>(handle);
-        break;
-
-    default:
-        break;
-    }
+    IWorker *worker = new MultiWorker<1>(handle);
 
     handle->setWorker(worker);
 
@@ -298,7 +273,7 @@ void Workers::start(IWorker *worker)
 
     if (m_status.started == m_status.threads) {
         const double percent = (double) m_status.hugePages / m_status.pages * 100.0;
-        const size_t memory  = m_status.ways * xmrig::cn_select_memory(m_status.algo) / 1048576;
+        const size_t memory  = m_status.ways * LYRA2_MEMSIZE / 1048576;
 
         if (m_status.colors) {
             LOG_INFO(GREEN_BOLD("READY (CPU)") " threads " CYAN_BOLD("%zu(%zu)") " huge pages %s%zu/%zu %1.0f%%\x1B[0m memory " CYAN_BOLD("%zu.0 MB") "",

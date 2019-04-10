@@ -33,9 +33,6 @@
 #include "common/xmrig.h"
 
 
-struct cryptonight_ctx;
-
-
 struct MemInfo
 {
     alignas(16) uint8_t *memory;
@@ -55,9 +52,7 @@ public:
         Lock               = 4
     };
 
-    static MemInfo create(cryptonight_ctx **ctx, xmrig::Algo algorithm, size_t count);
     static void init(bool enabled);
-    static void release(cryptonight_ctx **ctx, size_t count, MemInfo &info);
 
     static inline bool isHugepagesAvailable() { return (m_flags & HugepagesAvailable) != 0; }
 
