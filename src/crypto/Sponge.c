@@ -24,7 +24,6 @@
 #include "Sponge.h"
 #include "Lyra2.h"
 
-
 /**
  * Initializes the Sponge State. The first 512 bits are set to zeros and the remainder
  * receive Blake2b's IV as per Blake2b's specification. <b>Note:</b> Even though sponges
@@ -77,6 +76,11 @@ __inline static void blake2bLyra(uint64_t *v) {
 __inline static void reducedBlake2bLyra(uint64_t *v) {
 	ROUND_LYRA(0);
 }
+
+__inline static void reducedBlake2bLyraPrefetch(uint64_t *v, struct LYRA2_ctx *ctx) {
+	ROUND_LYRA_PREFETCH(0);
+}
+
 
 /**
  * Performs a squeeze operation, using Blake2b's G function as the
@@ -333,7 +337,7 @@ void reducedDuplexRowSetup(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut,
  * @param rowOut         Row receiving the output
  *
  */
-void reducedDuplexRow(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint64_t *rowOut)
+void reducedDuplexRow(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint64_t *rowOut, struct LYRA2_ctx *ctx)
 {
 	uint64_t* ptrWordInOut = rowInOut; //In Lyra2: pointer to row*
 	uint64_t* ptrWordIn = rowIn; //In Lyra2: pointer to prev
@@ -357,7 +361,11 @@ void reducedDuplexRow(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint
 		state[11] ^= (ptrWordIn[11] + ptrWordInOut[11]);
 
 		//Applies the reduced-round transformation f to the sponge's state
-		reducedBlake2bLyra(state);
+		if(i == NCOLS-1) {
+			reducedBlake2bLyraPrefetch(state, ctx);
+		} else {
+			reducedBlake2bLyra(state);
+		}
 
 		//M[rowOut][col] = M[rowOut][col] XOR rand
 		ptrWordOut[0] ^= state[0];

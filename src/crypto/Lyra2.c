@@ -174,7 +174,7 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 			__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+8);
 
 			//Performs a reduced-round duplexing operation over M[row*] XOR M[prev], updating both M[row*] and M[row]
-			reducedDuplexRow(state, ctx->memMatrix[prev], ctx->memMatrix[rowa], ctx->memMatrix[row]);
+			reducedDuplexRow(state, ctx->memMatrix[prev], ctx->memMatrix[rowa], ctx->memMatrix[row], ctx);
 
 			//update prev: it now points to the last row ever computed
 			prev = row;

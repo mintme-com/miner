@@ -24,6 +24,8 @@
 
 #include <stdint.h>
 
+struct LYRA2_ctx;
+
 /* Blake2b IV Array */
 static const uint64_t blake2b_IV[8] =
 {
@@ -66,6 +68,22 @@ static __inline uint64_t rotr64(const uint64_t w, const unsigned c) {
 	G(r,6,v[ 2],v[ 7],v[ 8],v[13]); \
 	G(r,7,v[ 3],v[ 4],v[ 9],v[14]);
 
+#define ROUND_LYRA_PREFETCH(r) \
+	G(r,0,v[ 0],v[ 4],v[ 8],v[12]); \
+	G(r,1,v[ 1],v[ 5],v[ 9],v[13]); \
+	G(r,2,v[ 2],v[ 6],v[10],v[14]); \
+	G(r,3,v[ 3],v[ 7],v[11],v[15]); \
+	G(r,4,v[ 0],v[ 5],v[10],v[15]); \
+	{ \
+		const int64_t rowa = v[0] & (unsigned int)(NROWS-1); \
+		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+0); \
+		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+4); \
+		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+8); \
+	} \
+	G(r,5,v[ 1],v[ 6],v[11],v[12]); \
+	G(r,6,v[ 2],v[ 7],v[ 8],v[13]); \
+	G(r,7,v[ 3],v[ 4],v[ 9],v[14]);
+
 //---- Housekeeping
 void initState(uint64_t state[/*16*/]);
 
@@ -80,6 +98,6 @@ void absorbBlockBlake2Safe(uint64_t *state, const uint64_t *in);
 //---- Duplexes
 void reducedDuplexRow1(uint64_t *state, uint64_t *rowIn, uint64_t *rowOut);
 void reducedDuplexRowSetup(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint64_t *rowOut);
-void reducedDuplexRow(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint64_t *rowOut);
+void reducedDuplexRow(uint64_t *state, uint64_t *rowIn, uint64_t *rowInOut, uint64_t *rowOut, struct LYRA2_ctx *ctx);
 
 #endif /* SPONGE_H_ */
