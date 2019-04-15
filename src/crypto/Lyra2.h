@@ -26,7 +26,6 @@ typedef unsigned char byte;
 
 struct LYRA2_ctx {
     uint64_t *wholeMatrix;
-    uint64_t **memMatrix;
 };
 
 //Block length required so Blake2's Initialization Vector (IV) is not overwritten (THIS SHOULD NOT BE MODIFIED)
@@ -46,6 +45,8 @@ struct LYRA2_ctx {
 #define NCOLS 4
 #define TCOST 4
 #define LYRA2_MEMSIZE (BLOCK_LEN_INT64 * NCOLS * 8 * NROWS)
+
+#define memMatrix(x)  (&ctx->wholeMatrix[x * BLOCK_LEN_INT64 * NCOLS])
 
 #ifdef __cplusplus
 extern "C" {

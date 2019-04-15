@@ -76,9 +76,9 @@ static __inline uint64_t rotr64(const uint64_t w, const unsigned c) {
 	G(r,4,v[ 0],v[ 5],v[10],v[15]); \
 	{ \
 		const int64_t rowa = v[0] & (unsigned int)(NROWS-1); \
-		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+0); \
-		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+4); \
-		__builtin_prefetch((uint64_t*)(ctx->memMatrix[rowa])+8); \
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa)+0)); \
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa)+4)); \
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa)+8)); \
 	} \
 	G(r,5,v[ 1],v[ 6],v[11],v[12]); \
 	G(r,6,v[ 2],v[ 7],v[ 8],v[13]); \
