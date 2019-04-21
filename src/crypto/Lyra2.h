@@ -56,7 +56,7 @@ extern "C" {
     void LYRA2_destroy(void *c);
 
 
-    inline void lyra2_hash(const uint8_t *input, size_t size, uint8_t *output, void *ctx)
+    static inline void lyra2_hash(const uint8_t *input, size_t size, uint8_t *output, void *ctx)
     {
     	LYRA2(ctx, output, 32, input, size);
     }
