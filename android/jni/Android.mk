@@ -70,6 +70,9 @@ else ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_CFLAGS += -DXMRIG_ARMv8 -DXMRIG_ARMv7 -DXMRIG_ARM
 LOCAL_LDLIBS +=  -luv_armv8
 LOCAL_SRC_FILES += $(XMRIG_SRC_PATH)/src/Cpu_arm.cpp
+else ifeq ($(TARGET_ARCH_ABI),x86)
+LOCAL_LDLIBS +=  -luv_x86
+LOCAL_SRC_FILES += $(XMRIG_SRC_PATH)/src/Cpu_stub.cpp
 endif
 
 LOCAL_LDFLAGS += -L$(LOCAL_PATH)/../libuv/lib
