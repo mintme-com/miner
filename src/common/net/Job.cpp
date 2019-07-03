@@ -166,7 +166,7 @@ bool Job::setTarget(const char *target)
 
 xmrig::Variant Job::variant() const
 {
-    if (m_algorithm.algo() == xmrig::LYRA2) {
+    if (m_algorithm.algo() == xmrig::LYRA2 || m_algorithm.algo() == xmrig::LYRA2v2) {
         return xmrig::VARIANT_0;
     }
 

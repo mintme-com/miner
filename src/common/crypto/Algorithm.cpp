@@ -55,6 +55,8 @@ struct AlgoData
 static AlgoData const algorithms[] = {
     { "lyra2-webchain",                 "lyra2-web",        xmrig::LYRA2,             xmrig::VARIANT_AUTO },
     { "lyra2-webchain/1",               "lyra2-web/1",      xmrig::LYRA2,             xmrig::VARIANT_0    },
+    { "lyra2v2-webchain",               "lyra2v2-web",      xmrig::LYRA2v2,             xmrig::VARIANT_AUTO },
+    { "lyra2v2-webchain/1",             "lyra2v2-web/1",    xmrig::LYRA2v2,             xmrig::VARIANT_0    },
 };
 
 

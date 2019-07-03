@@ -32,7 +32,8 @@ namespace xmrig
 
 enum Algo {
     INVALID_ALGO = -1,
-    LYRA2              /* LYRA2 (Webchain) */
+    LYRA2,              /* LYRA2 (Webchain) */
+    LYRA2v2              /* LYRA2v2 (Webchain) */
 };
 
 
