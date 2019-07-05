@@ -91,6 +91,7 @@ Pool::Pool(const char *host, uint16_t port, const char *user, const char *passwo
 
 bool Pool::isCompatible(const xmrig::Algorithm &algorithm) const
 {
+    return true; // TODO
     if (m_algorithms.empty()) {
         return true;
     }
@@ -227,7 +228,7 @@ void Pool::adjust(xmrig::Algo algorithm)
         m_algorithm.setAlgo(algorithm);
 
         if (m_algorithm.variant() == xmrig::VARIANT_AUTO) {
-            if (algorithm == xmrig::LYRA2)  {
+            if (algorithm == xmrig::LYRA2 || algorithm == xmrig::LYRA2v2)  {
                 m_algorithm.setVariant(xmrig::VARIANT_0);
             }
         }

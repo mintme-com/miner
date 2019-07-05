@@ -43,7 +43,6 @@ struct LYRA2_ctx {
 
 #define NROWS 16384
 #define NCOLS 4
-#define TCOST 4
 #define LYRA2_MEMSIZE (BLOCK_LEN_INT64 * NCOLS * 8 * NROWS)
 
 #define memMatrix(x)  (&ctx->wholeMatrix[x * BLOCK_LEN_INT64 * NCOLS])
@@ -51,14 +50,19 @@ struct LYRA2_ctx {
 #ifdef __cplusplus
 extern "C" {
 #endif
-    int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen);
+    int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen, uint32_t tcost);
     void *LYRA2_create(void);
     void LYRA2_destroy(void *c);
 
 
     static inline void lyra2_hash(const uint8_t *input, size_t size, uint8_t *output, void *ctx)
     {
-    	LYRA2(ctx, output, 32, input, size);
+        LYRA2(ctx, output, 32, input, size, 4);
+    }
+
+    static inline void lyra2v2_hash(const uint8_t *input, size_t size, uint8_t *output, void *ctx)
+    {
+        LYRA2(ctx, output, 32, input, size, 1);
     }
 #ifdef __cplusplus
 }

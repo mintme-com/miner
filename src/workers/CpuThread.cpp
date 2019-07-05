@@ -55,7 +55,14 @@ bool xmrig::CpuThread::isSoftAES(AlgoVariant av)
 
 xmrig::CpuThread::cn_hash_fun xmrig::CpuThread::fn(Algo algorithm, AlgoVariant av, Variant variant)
 {
-    return lyra2_hash;
+    switch (algorithm) {
+        case xmrig::LYRA2:
+            return lyra2_hash;
+        case xmrig::LYRA2v2:
+            return lyra2v2_hash;
+        default:
+            return lyra2_hash;
+    }
 }
 
 

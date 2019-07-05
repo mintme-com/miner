@@ -43,7 +43,7 @@
  *
  * @return 0 if the key is generated correctly; -1 if there is an error (usually due to lack of memory for allocation)
  */
-int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
+int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen, uint32_t tcost)
 {
 	struct LYRA2_ctx *ctx = ctx2;
 	//============================= Basic variables ============================//
@@ -92,7 +92,7 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 	v64 = 0; // saltlen
 	memcpy(ptrByte, &v64, sizeof(int64_t));
 	ptrByte += sizeof(uint64_t);
-	v64 = TCOST;
+	v64 = tcost;
 	memcpy(ptrByte, &v64, sizeof(int64_t));
 	ptrByte += sizeof(uint64_t);
 	v64 = NROWS;
@@ -135,6 +135,9 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 
 		//updates the value of row* (deterministically picked during Setup))
 		rowa = (rowa + step) & (window - 1);
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa))+0);
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa))+4);
+		__builtin_prefetch((uint64_t*)(memMatrix(rowa))+8);
 		//update prev: it now points to the last row ever computed
 		prev = row;
 		//updates row: goes to the next row to be computed
@@ -142,17 +145,17 @@ int LYRA2(void *ctx2, void *K, int64_t kLen, const void *pwd, int32_t pwdlen)
 
 		//Checks if all rows in the window where visited.
 		if (rowa == 0) {
-		step = window + gap; //changes the step: approximately doubles its value
-		window *= 2; //doubles the size of the re-visitation window
-		gap = -gap; //inverts the modifier to the step
-	}
+			step = window + gap; //changes the step: approximately doubles its value
+			window *= 2; //doubles the size of the re-visitation window
+			gap = -gap; //inverts the modifier to the step
+		}
 
 	} while (row < NROWS);
 	//==========================================================================/
 
 	//============================ Wandering Phase =============================//
 	row = 0; //Resets the visitation to the first row of the memory matrix
-	for (tau = 1; tau <= TCOST; tau++) {
+	for (tau = 1; tau <= tcost; tau++) {
 		//Step is approximately half the number of all rows of the memory matrix for an odd tau; otherwise, it is -1
 		step = (tau % 2 == 0) ? -1 : NROWS / 2 - 1;
 		do {
