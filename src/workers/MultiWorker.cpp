@@ -40,6 +40,7 @@ template<size_t N>
 MultiWorker<N>::MultiWorker(Handle *handle)
     : Worker(handle)
 {
+    m_memory = Mem::create();
     lyra2_ctx = LYRA2_create();
 }
 
@@ -47,6 +48,7 @@ MultiWorker<N>::MultiWorker(Handle *handle)
 template<size_t N>
 MultiWorker<N>::~MultiWorker()
 {
+    Mem::release(N, m_memory);
     LYRA2_destroy(lyra2_ctx);
 }
 

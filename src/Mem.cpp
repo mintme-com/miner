@@ -24,8 +24,33 @@
 
 
 #include "common/utils/mm_malloc.h"
+#include "crypto/Lyra2.h"
 #include "Mem.h"
 
 
 bool Mem::m_enabled = true;
 int Mem::m_flags    = 0;
+
+MemInfo Mem::create()
+{
+    using namespace xmrig;
+
+    MemInfo info;
+    info.size = LYRA2_MEMSIZE;
+
+#   ifndef XMRIG_NO_AEON
+    info.size += info.size % (2 * 1024 * 1024);
+#   endif
+
+    info.pages = info.size / (2 * 1024 * 1024);
+
+    allocate(info, m_enabled);
+
+    return info;
+}
+
+
+void Mem::release(size_t count, MemInfo &info)
+{
+    release(info);
+}

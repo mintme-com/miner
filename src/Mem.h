@@ -52,7 +52,9 @@ public:
         Lock               = 4
     };
 
+    static MemInfo create();
     static void init(bool enabled);
+    static void release(size_t count, MemInfo &info);
 
     static inline bool isHugepagesAvailable() { return (m_flags & HugepagesAvailable) != 0; }
 
