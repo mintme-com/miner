@@ -1,7 +1,7 @@
 # webchain-miner
 
 webchain-miner is a high performance Webchain (WEB) CPU miner, with official support for Windows.
-Originally based on XMRig with changes that allows mining WEB.
+Originally based on XMRig with changes that allow mining WEB.
 
 #### Table of contents
 * [Features](#features)
