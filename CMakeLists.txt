@@ -137,6 +137,9 @@ else()
         )
 
     set(EXTRA_LIBS pthread rt)
+    if (XMRIG_ARMv6)
+        set(EXTRA_LIBS ${EXTRA_LIBS} atomic)
+    endif()
 endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL FreeBSD)
