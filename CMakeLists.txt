@@ -137,7 +137,7 @@ else()
         )
 
     set(EXTRA_LIBS pthread rt)
-    if (XMRIG_ARMv6)
+    if (XMRIG_ARM)
         set(EXTRA_LIBS ${EXTRA_LIBS} atomic)
     endif()
 endif()
