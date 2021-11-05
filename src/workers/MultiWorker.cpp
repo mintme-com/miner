@@ -90,6 +90,19 @@ void MultiWorker<N>::start()
 
             m_thread->fn(m_state.job.algorithm().algo(), xmrig::AV_SINGLE, m_state.job.variant())(m_state.blob, m_state.job.size(), m_hash, lyra2_ctx);
 
+#if defined(XMRIG_ARM)
+            for (size_t i = 0; i < N; ++i) {
+                uint64_t nonce_i;
+                memcpy(&nonce_i, nonce(i), sizeof(nonce_i));
+
+                if (htonll(*reinterpret_cast<uint64_t*>(m_hash + (i * 32))) < m_state.job.target()) {
+                    Workers::submit(JobResult(m_state.job.poolId(), m_state.job.id(), nonce_i, m_hash + (i * 32), m_state.job.diff(), m_state.job.algorithm()));
+                }
+
+                nonce_i += 1;
+                memcpy(nonce(i), &nonce_i, sizeof(nonce_i));
+            }
+#else
             for (size_t i = 0; i < N; ++i) {
                 if (htonll(*reinterpret_cast<uint64_t*>(m_hash + (i * 32))) < m_state.job.target()) {
                     Workers::submit(JobResult(m_state.job.poolId(), m_state.job.id(), *nonce(i), m_hash + (i * 32), m_state.job.diff(), m_state.job.algorithm()));
@@ -97,7 +110,7 @@ void MultiWorker<N>::start()
 
                 *nonce(i) += 1;
             }
-
+#endif
             m_count += N;
 
             std::this_thread::yield();
