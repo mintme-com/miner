@@ -126,19 +126,19 @@ void Httpd::run()
 }
 
 
-int Httpd::handler(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *uploadData, size_t *uploadSize, void **con_cls)
+MHD_Result Httpd::handler(void *cls, struct MHD_Connection *connection, const char *url, const char *method, const char *version, const char *uploadData, size_t *uploadSize, void **con_cls)
 {
     xmrig::HttpRequest req(connection, url, method, uploadData, uploadSize, con_cls);
 
     if (req.method() == xmrig::HttpRequest::Options) {
-        return req.end(MHD_HTTP_OK, nullptr);
+        return static_cast<MHD_Result>(req.end(MHD_HTTP_OK, nullptr));
     }
 
     if (req.method() == xmrig::HttpRequest::Unsupported) {
-        return req.end(MHD_HTTP_METHOD_NOT_ALLOWED, nullptr);
+        return static_cast<MHD_Result>(req.end(MHD_HTTP_METHOD_NOT_ALLOWED, nullptr));
     }
 
-    return static_cast<Httpd*>(cls)->process(req);
+    return static_cast<MHD_Result>(static_cast<Httpd*>(cls)->process(req));
 }
 
 
