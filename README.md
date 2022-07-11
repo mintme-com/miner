@@ -6,6 +6,7 @@ Originally based on XMRig with changes that allow mining WEB.
 #### Table of contents
 * [Features](#features)
 * [Download](#download)
+* [Building](#building)
 * [Usage](#usage)
 * [Algorithm variations](#algorithm-variations)
 * [Common Issues](#common-issues)
@@ -25,12 +26,17 @@ Originally based on XMRig with changes that allow mining WEB.
 
 ## Download
 * Binary releases: https://github.com/webchain-network/webchain-miner/releases
-* Git tree: https://github.com/webchain-network/webchain-miner.git
-  * Clone with `git clone https://github.com/webchain-network/webchain-miner.git` :hammer: [Build instructions](https://github.com/xmrig/xmrig/wiki/Build).
+
+## Building
+* For build instructions, see [BUILDING.md](BUILDING.md) .
 
 ## Usage
+Minimal set of options:
+```
+webchain-miner -o <pool_address> -u <0xYOUR_PUBKEY> -p <password>
+```
 
-### Options
+All available options:
 ```
   -o, --url=URL            URL of mining server
   -O, --userpass=U:P       username:password pair for mining server
@@ -61,7 +67,7 @@ Originally based on XMRig with changes that allow mining WEB.
   -V, --version            output version information and exit
 ```
 
-Also you can use configuration via config file, default **config.json**. You can load multiple config files and combine it with command line options.
+* Also you can use configuration via config file, default **config.json**. You can load multiple config files and combine it with command line options.
 
 ## Common Issues
 ### HUGE PAGES unavailable
