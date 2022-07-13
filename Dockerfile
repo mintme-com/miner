@@ -3,11 +3,12 @@ FROM debian:bullseye
 
 RUN apt-get update && apt-get install -y wget git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 
+RUN adduser --gecos "" --add_extra_groups --disabled-password user
+
 #RUN git clone --depth=1 https://github.com/mintme-com/miner
 COPY . /home/user/miner
-
-RUN adduser --gecos "" --add_extra_groups --disabled-password user
 RUN chown -R user:user /home/user/miner
+
 USER user
 WORKDIR /home/user
 
