@@ -37,7 +37,7 @@ sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static hwloc-devel open
 ## Build:
 ```
 git clone https://github.com/mintme-com/miner
-mkdir xmrig/build && cd xmrig/build
+mkdir miner/build && cd miner/build
 cmake -DWITH_HTTPD=OFF ..
 make -j$(nproc)
 ```
