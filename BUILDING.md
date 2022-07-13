@@ -45,6 +45,6 @@ make -j$(nproc)
 ## MacOS / Windows:
 For building on MacOS and Windows, please refer to the original XMRig build documentation:
 
-MaxOS (including Apple Silicon): https://xmrig.com/docs/miner/build/macos
+MacOS (including Apple Silicon): https://xmrig.com/docs/miner/build/macos
 
 Windows: https://xmrig.com/docs/miner/build/windows
