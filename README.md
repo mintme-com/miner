@@ -48,6 +48,8 @@ sudo dnf install -y epel-release
 sudo yum config-manager --set-enabled PowerTools
 sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static hwloc-devel openssl-devel automake libtool autoconf
 
+
+# Clone and build
 git clone https://github.com/mintme-com/miner
 mkdir miner/build && cd miner/build
 cmake -DWITH_HTTPD=OFF ..
