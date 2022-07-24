@@ -1,5 +1,4 @@
 FROM debian:bullseye
-# Does not build on Buster! Old GCC 4.8!
 
 RUN apt-get update && apt-get install -y wget git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 
