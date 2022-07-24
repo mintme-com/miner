@@ -28,14 +28,13 @@ Originally based on XMRig with changes that allow mining WEB.
 * Binary releases: https://github.com/webchain-network/webchain-miner/releases
 
 ## Building
-webchain-miner does not build on GCC 4.8, which means Debian 10 Buster and possibly CentOS 7.
-
 webchain-miner does not support HTTP, so remember to pass `-DWITH_HTTPD=OFF` to `cmake`, otherwise it won't build!
 
+Also, it requires a fairly modern distribution. If a distro release is specified below, that means it's confirmed to not build on the previous version.
 ```
 # Download dependencies:
 
-# Debian 11 Bullseye / Ubuntu:
+# Debian 11 Bullseye / Ubuntu (see #34):
 sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
 # Fedora:
 sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static libuv-static hwloc-devel openssl-devel
