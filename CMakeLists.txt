@@ -232,4 +232,4 @@ if (BUILD_STATIC)
 endif()
 
 add_executable(webchain-miner ${HEADERS} ${SOURCES} ${SOURCES_OS} ${SOURCES_CPUID} ${HEADERS_CRYPTO} ${SOURCES_CRYPTO} ${SOURCES_SYSLOG} ${HTTPD_SOURCES})
-target_link_libraries(webchain-miner ${UV_LIBRARIES} ${MHD_LIBRARY} ${EXTRA_LIBS} ${CPUID_LIB})
+target_link_libraries(webchain-miner ${UV_LIBRARIES} dl ${MHD_LIBRARY} ${EXTRA_LIBS} ${CPUID_LIB})
