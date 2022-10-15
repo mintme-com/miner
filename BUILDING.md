@@ -1,0 +1,50 @@
+# Building webchain-miner
+
+webchain-miner does not support HTTP, so remember to pass `-DWITH_HTTPD=OFF` to `cmake`, otherwise it won't build!
+
+Also, it requires a fairly modern distribution. If a distro release is specified below, that means it's confirmed to not build on the previous version.
+
+## Install dependencies:
+
+### Ubuntu (see #34) / Debian 11 Bullseye:
+```
+sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+```
+
+### Fedora:
+```
+sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static libuv-static hwloc-devel openssl-devel
+```
+
+### Alpine:
+```
+apk add git make cmake libstdc++ gcc g++ libuv-dev openssl-dev hwloc-dev
+```
+To install hwloc-dev package you must enable testing repository in /etc/apk/repositories file.
+
+### FreeBSD
+```
+pkg install git cmake libuv openssl hwloc
+```
+
+### CentOS 8
+```
+sudo dnf install -y epel-release
+sudo yum config-manager --set-enabled PowerTools
+sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static hwloc-devel openssl-devel automake libtool autoconf
+```
+
+## Build:
+```
+git clone https://github.com/mintme-com/miner
+mkdir miner/build && cd miner/build
+cmake -DWITH_HTTPD=OFF ..
+make -j$(nproc)
+```
+
+## MacOS / Windows:
+For building on MacOS and Windows, please refer to the original XMRig build documentation:
+
+MacOS (including Apple Silicon): https://xmrig.com/docs/miner/build/macos
+
+Windows: https://xmrig.com/docs/miner/build/windows
