@@ -6,6 +6,7 @@ Originally based on XMRig with changes that allow mining WEB.
 #### Table of contents
 * [Features](#features)
 * [Download](#download)
+* [Building](#building)
 * [Usage](#usage)
 * [Algorithm variations](#algorithm-variations)
 * [Common Issues](#common-issues)
@@ -25,12 +26,49 @@ Originally based on XMRig with changes that allow mining WEB.
 
 ## Download
 * Binary releases: https://github.com/webchain-network/webchain-miner/releases
-* Git tree: https://github.com/webchain-network/webchain-miner.git
-  * Clone with `git clone https://github.com/webchain-network/webchain-miner.git` :hammer: [Build instructions](https://github.com/xmrig/xmrig/wiki/Build).
+
+## Building
+webchain-miner does not support HTTP, so remember to pass `-DWITH_HTTPD=OFF` to `cmake`, otherwise it won't build!
+
+Also, it requires a fairly modern distribution. If a distro release is specified below, that means it's confirmed to not build on the previous version.
+```
+# Download dependencies:
+
+# Debian 11 Bullseye / Ubuntu (see #34):
+sudo apt-get install git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+# Fedora:
+sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static libuv-static hwloc-devel openssl-devel
+# Alpine: (to install hwloc-dev package you must enable
+# testing repository in /etc/apk/repositories file)
+apk add git make cmake libstdc++ gcc g++ libuv-dev openssl-dev hwloc-dev
+# FreeBSD:
+pkg install git cmake libuv openssl hwloc
+# CentOS 8:
+sudo dnf install -y epel-release
+sudo yum config-manager --set-enabled PowerTools
+sudo dnf install -y git make cmake gcc gcc-c++ libstdc++-static hwloc-devel openssl-devel automake libtool autoconf
+
+
+# Clone and build
+git clone https://github.com/mintme-com/miner
+mkdir miner/build && cd miner/build
+cmake -DWITH_HTTPD=OFF ..
+make -j$(nproc)
+```
+
+For building on MacOS and Windows, please refer to the original XMRig build documentation:
+
+MacOS (including Apple Silicon): https://xmrig.com/docs/miner/build/macos
+
+Windows: https://xmrig.com/docs/miner/build/windows
 
 ## Usage
+Minimal set of options:
+```
+webchain-miner -o <pool_address> -u <0xYOUR_PUBKEY> -p <password>
+```
 
-### Options
+All available options:
 ```
   -o, --url=URL            URL of mining server
   -O, --userpass=U:P       username:password pair for mining server
@@ -61,7 +99,7 @@ Originally based on XMRig with changes that allow mining WEB.
   -V, --version            output version information and exit
 ```
 
-Also you can use configuration via config file, default **config.json**. You can load multiple config files and combine it with command line options.
+* Also you can use configuration via config file, default **config.json**. You can load multiple config files and combine it with command line options.
 
 ## Common Issues
 ### HUGE PAGES unavailable
