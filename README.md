@@ -36,6 +36,7 @@ Originally based on XMRig with changes that allow mining WEB.
   -O, --userpass=U:P       username:password pair for mining server
   -u, --user=USERNAME      username for mining server
   -p, --pass=PASSWORD      password for mining server
+      --worker-id=ID       worker ID for mining server
   -t, --threads=N          number of miner threads
   -k, --keepalive          send keepalived for prevent timeout (need pool support)
   -r, --retries=N          number of times to retry before switch to backup server (default: 5)
