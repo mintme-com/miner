@@ -81,4 +81,4 @@ Also you can use configuration via config file, default **config.json**. You can
 * Enable fast memory (Large/Huge pages).
 
 ## Contacts
-* support@webchain.network
+* support@mintme.com
