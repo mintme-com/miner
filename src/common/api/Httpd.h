@@ -24,7 +24,7 @@
 #ifndef __HTTPD_H__
 #define __HTTPD_H__
 
-
+#include <microhttpd.h>
 #include <uv.h>
 
 
@@ -55,7 +55,7 @@ private:
     int process(xmrig::HttpRequest &req);
     void run();
 
-    static int handler(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *uploadData, size_t *uploadSize, void **con_cls);
+    static MHD_Result handler(void *cls, MHD_Connection *connection, const char *url, const char *method, const char *version, const char *uploadData, size_t *uploadSize, void **con_cls);
     static void onTimer(uv_timer_t *handle);
 
     bool m_idle;
